@@ -233,18 +233,71 @@ out<-pheatmap(o,cluster_cols = T,cluster_rows = T,
          show_rownames=FALSE,show_colnames=TRUE)
 rownames(o[out$tree_row[["order"]],])
 row_cluster <- cutree(out$tree_row,k=7)
+Cluster1<-peak[which(row_cluster==1)]
 Cluster2<-peak[which(row_cluster==2)]
+Cluster3<-peak[which(row_cluster==3)]
+Cluster4<-peak[which(row_cluster==4)]
+Cluster5<-peak[which(row_cluster==5)]
+Cluster6<-peak[which(row_cluster==6)]
+Cluster7<-peak[which(row_cluster==7)]
 
 #######peak 注释到基因########
+library(TxDb.Mmusculus.UCSC.mm10.knownGene)
 library(org.Mm.eg.db)
-peakAnnoList <- lapply(Cluster2, TxDb=txdb,tssRegion=c(-1000, 1000), 
+library("ChIPseeker")
+library(clusterProfiler)
+
+txdb <-TxDb.Mmusculus.UCSC.mm10.knownGene
+promoter <- getPromoters(TxDb=txdb, upstream=3000, downstream=3000)
+tagMatrixList <- lapply(peaks, getTagMatrix, windows=promoter)
+#annotatePeak传入annoDb参数,可进行基因ID转换（Entrez，ENSEMBL，SYMBOL，GENENAME）
+peakAnno <- annotatePeak(Cluster2,TxDb=txdb,tssRegion=c(-1000, 1000), verbose=FALSE,
+  addFlankGeneInfo=TRUE, flankDistance=5000,annoDb="org.Mm.eg.db")
+
+peaks<-list(Cluster1=Cluster1,Cluster2=Cluster2,Cluster3=Cluster3,Cluster4=Cluster4,Cluster5=Cluster5,Cluster6=Cluster6,Cluster7=Cluster7)
+peakAnnoList <- lapply(peaks, annotatePeak,TxDb=txdb,tssRegion=c(-1000, 1000), 
   verbose=FALSE,addFlankGeneInfo=TRUE, flankDistance=5000,annoDb="org.Mm.eg.db")
+pdf("peak-distribution.pdf")
+plotAnnoBar(peakAnnoList)
+plotDistToTSS(peakAnnoList,title="Distribution of transcription factor-binding loci \n relative to TSS")
+# Create a list with genes from each sample
+gene = lapply(peakAnnoList, function(i) as.data.frame(i)$geneId)
+# Run GO enrichment analysis gene[[1]]
+ego <- enrichGO(gene = entrez, 
+                    #keytype = "ENTREZID", 
+                    OrgDb = org.Mm.eg.db, 
+                    ont = "BP", 
+                    pAdjustMethod = "BH", 
+                    qvalueCutoff = 0.05, 
+                    readable = TRUE)
+compGO <- compareCluster(geneCluster = gene, 
+                         fun = "enrichGO",
+                         ont = "BP", 
+                         OrgDb = org.Mm.eg.db, 
+                         #organism = "human",
+                         pvalueCutoff  = 0.10, 
+                         pAdjustMethod = "BH")
+pdf("Enrichment_Analysis.pdf",width=16,heigh=10)
+dotplot(compGO, showCategory = 20, title = "GO Enrichment Analysis")    
+# Dotplot visualization
+#dotplot(ego, showCategory=50)
+# Multiple samples KEGG analysis
+compKEGG <- compareCluster(geneCluster = gene, 
+                         fun = "enrichKEGG",
+                         organism = "mouse",
+                         pvalueCutoff  = 0.10, 
+                         pAdjustMethod = "BH")
+dotplot(compKEGG, showCategory = 20, title = "KEGG Pathway Enrichment Analysis")
 
 
-annotatePeak, 
-aCR<-assignChromosomeRegion(sampleA, nucleotideLevel=FALSE,  precedence=c("Promoters", "immediateDownstream","fiveUTRs", "threeUTRs", "Exons", "Introns"),
-  TxDb=TxDb.Hsapiens.UCSC.hg19.knownGene)barplot(aCR$percentage, las=3)
 
+# Output peakAnnolist file
+save(peakAnnoList,file="peakAnnolist.rda")
+
+write.table(as.data.frame(peakAnnoList$Nanog),file="Nanog.PeakAnno",sep='\t',quote = F)
+# Output results from GO analysis to a table
+cluster_summary <- data.frame(ego)
+write.csv(cluster_summary, "results/clusterProfiler_Nanog.csv")
 
 
 
