@@ -1,7 +1,7 @@
 #rm(list = ls())
 #getwd()
 setwd("/public/home/Chenzh275/Data/scATAC/ArchR-Endothelial_Cell")
-
+second
 library(ArchR)
 #ArchR <- loadArchRProject(path = "/public/home/nieyg/scATAC-ArchR/Save-Proj5")
 #table(ArchR@cellColData$Clusters)
