@@ -1,0 +1,96 @@
+p.caption {
+  color: #777; /*Unknown coloration*/
+  margin-top: 10px;
+}
+p code {
+  white-space: inherit;
+}
+pre {
+  word-break: normal;
+  word-wrap: normal;
+}
+pre code {
+  white-space: inherit;
+}
+
+.book .book-summary ul.summary li span {
+  color: #333333;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.book .book-summary ul.summary li.active > a {
+  color: #008cba; /*Color for the currently highlighted section in the TOC*/
+  font-weight: bold;
+}
+
+.book .book-summary ul.summary li > a:hover {
+  color: #f04124; /*Color for when you hover over a section in the TOC*/
+  font-weight: bold;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal a {
+  color: #008cba; /*Color for weblinks in the body*/
+  font-weight: bold;
+}
+
+/* Styling specific to blockquotes used for terminal output */
+.book .book-body .page-wrapper .page-inner section.normal blockquote {
+  background-color: #EDF8FE;
+  color: #022193;
+  font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  font-size: 14px;
+}
+
+.summaryblock{
+  padding: 1em 1em 1em 4em;
+  margin-bottom: 10px;
+  color: #333E50; /*Unknown coloration*/
+  border-style: solid;
+  border-width: 5px;
+  border-color: #6faef5;
+}
+
+.summaryblock > a {
+  color: #ff0000;
+}
+
+.part > span {
+  color: #333333; /*Color for HTML span text?*/
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #333333; /*Color for section headers*/
+}
+
+body {
+  color: #333333; /*Color for body text*/
+}
+
+.book .book-body .page-wrapper .page-inner section.normal code {
+  background: #dfe3eb;/*Background color for highlighted code in the body (Not for code chunks)*/
+}
+
+div.book-header.fixed[style] {
+  background-color: #333333 !important;/*Navbar header color*/
+}
+
+.book .book-header .btn {
+  color: #e9e9e9; /*Color for buttons in the navbar*/
+}
+
+.book .book-header .btn:hover {
+    position: relative;
+    text-decoration: none;
+    color: #e99002; /*Color for when you hover over a navbar button*/
+    background: 0 0;
+    transform:scale(1.3,1.3);
+}
+
+.book .book-header h1 a {
+  color: #5bc0de; /*Color of logo when you hover over navbar*/
+}
+
+.book .book-header h1 a:hover {
+  color: #e99002; /*Color of logo when you hover over navbar link*/
+}

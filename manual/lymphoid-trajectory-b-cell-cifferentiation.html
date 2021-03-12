@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>16.2 Lymphoid Trajectory - B Cell Cifferentiation | ArchR: Robust and scaleable analysis of single-cell chromatin accessibility data.</title>
+  <meta name="description" content="A guide to ArchR" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="16.2 Lymphoid Trajectory - B Cell Cifferentiation | ArchR: Robust and scaleable analysis of single-cell chromatin accessibility data." />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A guide to ArchR" />
+  <meta name="github-repo" content="GreenleafLab/ArchR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="16.2 Lymphoid Trajectory - B Cell Cifferentiation | ArchR: Robust and scaleable analysis of single-cell chromatin accessibility data." />
+  
+  <meta name="twitter:description" content="A guide to ArchR" />
+  
+
+<meta name="author" content="Jeffrey Granja and Ryan Corces" />
+
+
+<meta name="date" content="2020-05-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="myeloid-trajectory-monocyte-differentiation.html"/>
+<link rel="next" href="plot-aesthetics-in-archr.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://www.archrproject.com/index.html">Back to ArchR Home</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#section"><img src="images/ArchR_Logo_Integrated.png" alt="" width="200"></a></li>
+<li class="chapter" data-level="1" data-path="getting-started-with-archr.html"><a href="getting-started-with-archr.html"><i class="fa fa-check"></i><b>1</b> Getting Started with ArchR</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="a-brief-primer-on-atac-seq-terminology.html"><a href="a-brief-primer-on-atac-seq-terminology.html"><i class="fa fa-check"></i><b>1.1</b> A Brief Primer on ATAC-seq Terminology</a></li>
+<li class="chapter" data-level="1.2" data-path="why-use-archr.html"><a href="why-use-archr.html"><i class="fa fa-check"></i><b>1.2</b> Why use ArchR?</a></li>
+<li class="chapter" data-level="1.3" data-path="what-is-an-arrow-file-archrproject.html"><a href="what-is-an-arrow-file-archrproject.html"><i class="fa fa-check"></i><b>1.3</b> What is an Arrow file / <code>ArchRProject</code>?</a></li>
+<li class="chapter" data-level="1.4" data-path="input-file-types-in-archr.html"><a href="input-file-types-in-archr.html"><i class="fa fa-check"></i><b>1.4</b> Input File Types in ArchR</a></li>
+<li class="chapter" data-level="1.5" data-path="getting-set-up.html"><a href="getting-set-up.html"><i class="fa fa-check"></i><b>1.5</b> Getting Set Up</a></li>
+<li class="chapter" data-level="1.6" data-path="creating-arrow-files.html"><a href="creating-arrow-files.html"><i class="fa fa-check"></i><b>1.6</b> Creating Arrow Files</a></li>
+<li class="chapter" data-level="1.7" data-path="per-cell-quality-control.html"><a href="per-cell-quality-control.html"><i class="fa fa-check"></i><b>1.7</b> Per-cell Quality Control</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="doublet-inference-with-archr.html"><a href="doublet-inference-with-archr.html"><i class="fa fa-check"></i><b>2</b> Doublet Inference with ArchR</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="how-does-doublet-identification-work-in-archr.html"><a href="how-does-doublet-identification-work-in-archr.html"><i class="fa fa-check"></i><b>2.1</b> How does doublet identification work in ArchR?</a></li>
+<li class="chapter" data-level="2.2" data-path="inferring-scatac-seq-doublets-with-archr.html"><a href="inferring-scatac-seq-doublets-with-archr.html"><i class="fa fa-check"></i><b>2.2</b> Inferring scATAC-seq Doublets with ArchR</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="creating-an-archrproject.html"><a href="creating-an-archrproject.html"><i class="fa fa-check"></i><b>3</b> Creating an ArchRProject</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="creating-an-archrproject-1.html"><a href="creating-an-archrproject-1.html"><i class="fa fa-check"></i><b>3.1</b> Creating An ArchRProject</a></li>
+<li class="chapter" data-level="3.2" data-path="manipulating-an-archrproject.html"><a href="manipulating-an-archrproject.html"><i class="fa fa-check"></i><b>3.2</b> Manipulating An ArchRProject</a></li>
+<li class="chapter" data-level="3.3" data-path="plotting-sample-statistics-from-an-archrproject.html"><a href="plotting-sample-statistics-from-an-archrproject.html"><i class="fa fa-check"></i><b>3.3</b> Plotting Sample Statistics from an ArchRProject</a></li>
+<li class="chapter" data-level="3.4" data-path="plotting-sample-fragment-size-distribution-and-tss-enrichment-profiles-.html"><a href="plotting-sample-fragment-size-distribution-and-tss-enrichment-profiles-.html"><i class="fa fa-check"></i><b>3.4</b> Plotting Sample Fragment Size Distribution and TSS Enrichment Profiles.</a></li>
+<li class="chapter" data-level="3.5" data-path="saving-and-loading-an-archrproject.html"><a href="saving-and-loading-an-archrproject.html"><i class="fa fa-check"></i><b>3.5</b> Saving and Loading an <code>ArchRProject</code></a></li>
+<li class="chapter" data-level="3.6" data-path="filtering-doublets-from-an-archrproject.html"><a href="filtering-doublets-from-an-archrproject.html"><i class="fa fa-check"></i><b>3.6</b> Filtering Doublets from an ArchRProject</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality-reduction-with-archr.html"><a href="dimensionality-reduction-with-archr.html"><i class="fa fa-check"></i><b>4</b> Dimensionality Reduction with ArchR</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="archrs-lsi-implementation.html"><a href="archrs-lsi-implementation.html"><i class="fa fa-check"></i><b>4.1</b> ArchR’s LSI Implementation</a></li>
+<li class="chapter" data-level="4.2" data-path="iterative-latent-semantic-indexing-lsi.html"><a href="iterative-latent-semantic-indexing-lsi.html"><i class="fa fa-check"></i><b>4.2</b> Iterative Latent Semantic Indexing (LSI)</a></li>
+<li class="chapter" data-level="4.3" data-path="estimated-lsi.html"><a href="estimated-lsi.html"><i class="fa fa-check"></i><b>4.3</b> Estimated LSI</a></li>
+<li class="chapter" data-level="4.4" data-path="batch-effect-correction-wtih-harmony.html"><a href="batch-effect-correction-wtih-harmony.html"><i class="fa fa-check"></i><b>4.4</b> Batch Effect Correction wtih Harmony</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="clustering-with-archr.html"><a href="clustering-with-archr.html"><i class="fa fa-check"></i><b>5</b> Clustering with ArchR</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="clustering-using-seurats-findclusters-function.html"><a href="clustering-using-seurats-findclusters-function.html"><i class="fa fa-check"></i><b>5.1</b> Clustering using Seurat’s <code>FindClusters()</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="single-cell-embeddings.html"><a href="single-cell-embeddings.html"><i class="fa fa-check"></i><b>6</b> Single-cell Embeddings</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="uniform-manifold-approximation-and-projection-umap.html"><a href="uniform-manifold-approximation-and-projection-umap.html"><i class="fa fa-check"></i><b>6.1</b> Uniform Manifold Approximation and Projection (UMAP)</a></li>
+<li class="chapter" data-level="6.2" data-path="t-stocastic-neighbor-embedding-t-sne.html"><a href="t-stocastic-neighbor-embedding-t-sne.html"><i class="fa fa-check"></i><b>6.2</b> t-Stocastic Neighbor Embedding (t-SNE)</a></li>
+<li class="chapter" data-level="6.3" data-path="dimensionality-reduction-after-harmony.html"><a href="dimensionality-reduction-after-harmony.html"><i class="fa fa-check"></i><b>6.3</b> Dimensionality Reduction After Harmony</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="gene-scores-and-marker-genes-with-archr.html"><a href="gene-scores-and-marker-genes-with-archr.html"><i class="fa fa-check"></i><b>7</b> Gene Scores and Marker Genes with ArchR</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="calculating-gene-scores-in-archr.html"><a href="calculating-gene-scores-in-archr.html"><i class="fa fa-check"></i><b>7.1</b> Calculating Gene Scores in ArchR</a></li>
+<li class="chapter" data-level="7.2" data-path="identification-of-marker-features.html"><a href="identification-of-marker-features.html"><i class="fa fa-check"></i><b>7.2</b> Identification of Marker Features</a></li>
+<li class="chapter" data-level="7.3" data-path="identifying-marker-genes.html"><a href="identifying-marker-genes.html"><i class="fa fa-check"></i><b>7.3</b> Identifying Marker Genes</a></li>
+<li class="chapter" data-level="7.4" data-path="visualizing-marker-genes-on-an-embedding.html"><a href="visualizing-marker-genes-on-an-embedding.html"><i class="fa fa-check"></i><b>7.4</b> Visualizing Marker Genes on an Embedding</a></li>
+<li class="chapter" data-level="7.5" data-path="marker-genes-imputation-with-magic.html"><a href="marker-genes-imputation-with-magic.html"><i class="fa fa-check"></i><b>7.5</b> Marker Genes Imputation with MAGIC</a></li>
+<li class="chapter" data-level="7.6" data-path="track-plotting-with-archrbrowser.html"><a href="track-plotting-with-archrbrowser.html"><i class="fa fa-check"></i><b>7.6</b> Track Plotting with ArchRBrowser</a></li>
+<li class="chapter" data-level="7.7" data-path="launching-the-archrbrowser.html"><a href="launching-the-archrbrowser.html"><i class="fa fa-check"></i><b>7.7</b> Launching the ArchRBrowser</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="defining-cluster-identity-with-scrna-seq.html"><a href="defining-cluster-identity-with-scrna-seq.html"><i class="fa fa-check"></i><b>8</b> Defining Cluster Identity with scRNA-seq</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="cross-platform-linkage-of-scatac-seq-cells-with-scrna-seq-cells.html"><a href="cross-platform-linkage-of-scatac-seq-cells-with-scrna-seq-cells.html"><i class="fa fa-check"></i><b>8.1</b> Cross-platform linkage of scATAC-seq cells with scRNA-seq cells</a></li>
+<li class="chapter" data-level="8.2" data-path="adding-pseudo-scrna-seq-profiles-for-each-scatac-seq-cell.html"><a href="adding-pseudo-scrna-seq-profiles-for-each-scatac-seq-cell.html"><i class="fa fa-check"></i><b>8.2</b> Adding Pseudo-scRNA-seq profiles for each scATAC-seq cell</a></li>
+<li class="chapter" data-level="8.3" data-path="labeling-scatac-seq-clusters-with-scrna-seq-information.html"><a href="labeling-scatac-seq-clusters-with-scrna-seq-information.html"><i class="fa fa-check"></i><b>8.3</b> Labeling scATAC-seq clusters with scRNA-seq information</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="pseudo-bulk-replicates-in-archr.html"><a href="pseudo-bulk-replicates-in-archr.html"><i class="fa fa-check"></i><b>9</b> Pseudo-bulk Replicates in ArchR</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="how-does-archr-make-pseudo-bulk-replicates.html"><a href="how-does-archr-make-pseudo-bulk-replicates.html"><i class="fa fa-check"></i><b>9.1</b> How Does ArchR Make Pseudo-bulk Replicates?</a></li>
+<li class="chapter" data-level="9.2" data-path="making-pseudo-bulk-replicates.html"><a href="making-pseudo-bulk-replicates.html"><i class="fa fa-check"></i><b>9.2</b> Making Pseudo-bulk Replicates</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="calling-peaks-with-archr.html"><a href="calling-peaks-with-archr.html"><i class="fa fa-check"></i><b>10</b> Calling Peaks with ArchR</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="the-iterative-overlap-peak-merging-procedure.html"><a href="the-iterative-overlap-peak-merging-procedure.html"><i class="fa fa-check"></i><b>10.1</b> The Iterative Overlap Peak Merging Procedure</a></li>
+<li class="chapter" data-level="10.2" data-path="calling-peaks-w-macs2.html"><a href="calling-peaks-w-macs2.html"><i class="fa fa-check"></i><b>10.2</b> Calling Peaks w/ Macs2</a></li>
+<li class="chapter" data-level="10.3" data-path="calling-peaks-w-tilematrix.html"><a href="calling-peaks-w-tilematrix.html"><i class="fa fa-check"></i><b>10.3</b> Calling Peaks w/ TileMatrix</a></li>
+<li class="chapter" data-level="10.4" data-path="add-peak-matrix.html"><a href="add-peak-matrix.html"><i class="fa fa-check"></i><b>10.4</b> Add Peak Matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="identifying-marker-peaks-with-archr.html"><a href="identifying-marker-peaks-with-archr.html"><i class="fa fa-check"></i><b>11</b> Identifying Marker Peaks with ArchR</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="identifying-marker-peaks-with-archr-1.html"><a href="identifying-marker-peaks-with-archr-1.html"><i class="fa fa-check"></i><b>11.1</b> Identifying Marker Peaks with ArchR</a></li>
+<li class="chapter" data-level="11.2" data-path="plotting-marker-peaks-in-archr.html"><a href="plotting-marker-peaks-in-archr.html"><i class="fa fa-check"></i><b>11.2</b> Plotting Marker Peaks in ArchR</a></li>
+<li class="chapter" data-level="11.3" data-path="pairwise-testing-between-groups.html"><a href="pairwise-testing-between-groups.html"><i class="fa fa-check"></i><b>11.3</b> Pairwise Testing Between Groups</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="motif-and-feature-enrichment-with-archr.html"><a href="motif-and-feature-enrichment-with-archr.html"><i class="fa fa-check"></i><b>12</b> Motif and Feature Enrichment with ArchR</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="motif-enrichment-in-differential-peaks.html"><a href="motif-enrichment-in-differential-peaks.html"><i class="fa fa-check"></i><b>12.1</b> Motif Enrichment in Differential Peaks</a></li>
+<li class="chapter" data-level="12.2" data-path="motif-enrichment-in-marker-peaks.html"><a href="motif-enrichment-in-marker-peaks.html"><i class="fa fa-check"></i><b>12.2</b> Motif Enrichment in Marker Peaks</a></li>
+<li class="chapter" data-level="12.3" data-path="archr-enrichment.html"><a href="archr-enrichment.html"><i class="fa fa-check"></i><b>12.3</b> ArchR Enrichment</a></li>
+<li class="chapter" data-level="12.4" data-path="custom-enrichment.html"><a href="custom-enrichment.html"><i class="fa fa-check"></i><b>12.4</b> Custom Enrichment</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="chromvar-deviatons-enrichment-with-archr.html"><a href="chromvar-deviatons-enrichment-with-archr.html"><i class="fa fa-check"></i><b>13</b> ChromVAR Deviatons Enrichment with ArchR</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="motif-deviations.html"><a href="motif-deviations.html"><i class="fa fa-check"></i><b>13.1</b> Motif Deviations</a></li>
+<li class="chapter" data-level="13.2" data-path="archr-and-custom-deviations.html"><a href="archr-and-custom-deviations.html"><i class="fa fa-check"></i><b>13.2</b> ArchR and Custom Deviations</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="footprinting-with-archr.html"><a href="footprinting-with-archr.html"><i class="fa fa-check"></i><b>14</b> Footprinting with ArchR</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="motif-footprinting.html"><a href="motif-footprinting.html"><i class="fa fa-check"></i><b>14.1</b> Motif Footprinting</a></li>
+<li class="chapter" data-level="14.2" data-path="normalization-of-footprints-for-tn5-bias.html"><a href="normalization-of-footprints-for-tn5-bias.html"><i class="fa fa-check"></i><b>14.2</b> Normalization of Footprints for Tn5 Bias</a></li>
+<li class="chapter" data-level="14.3" data-path="feature-footprinting.html"><a href="feature-footprinting.html"><i class="fa fa-check"></i><b>14.3</b> Feature Footprinting</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="integrative-analysis-with-archr.html"><a href="integrative-analysis-with-archr.html"><i class="fa fa-check"></i><b>15</b> Integrative Analysis with ArchR</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="creating-low-overlapping-aggregates-of-cells.html"><a href="creating-low-overlapping-aggregates-of-cells.html"><i class="fa fa-check"></i><b>15.1</b> Creating Low-Overlapping Aggregates of Cells</a></li>
+<li class="chapter" data-level="15.2" data-path="co-accessibility-with-archr.html"><a href="co-accessibility-with-archr.html"><i class="fa fa-check"></i><b>15.2</b> Co-accessibility with ArchR</a></li>
+<li class="chapter" data-level="15.3" data-path="peak2genelinkage-with-archr.html"><a href="peak2genelinkage-with-archr.html"><i class="fa fa-check"></i><b>15.3</b> Peak2GeneLinkage with ArchR</a></li>
+<li class="chapter" data-level="15.4" data-path="identification-of-positive-tf-regulators.html"><a href="identification-of-positive-tf-regulators.html"><i class="fa fa-check"></i><b>15.4</b> Identification of Positive TF-Regulators</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="trajectory-analysis-with-archr.html"><a href="trajectory-analysis-with-archr.html"><i class="fa fa-check"></i><b>16</b> Trajectory Analysis with ArchR</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="myeloid-trajectory-monocyte-differentiation.html"><a href="myeloid-trajectory-monocyte-differentiation.html"><i class="fa fa-check"></i><b>16.1</b> Myeloid Trajectory - Monocyte Differentiation</a></li>
+<li class="chapter" data-level="16.2" data-path="lymphoid-trajectory-b-cell-cifferentiation.html"><a href="lymphoid-trajectory-b-cell-cifferentiation.html"><i class="fa fa-check"></i><b>16.2</b> Lymphoid Trajectory - B Cell Cifferentiation</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="plot-aesthetics-in-archr.html"><a href="plot-aesthetics-in-archr.html"><i class="fa fa-check"></i><b>17</b> Plot aesthetics in ArchR</a></li>
+<li class="chapter" data-level="18" data-path="session-information.html"><a href="session-information.html"><i class="fa fa-check"></i><b>18</b> Session Information</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="index.html">ArchR: Robust and scaleable analysis of single-cell chromatin accessibility data.</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lymphoid-trajectory---b-cell-cifferentiation" class="section level2" number="16.2">
+<h2><span class="header-section-number">16.2</span> Lymphoid Trajectory - B Cell Cifferentiation</h2>
+<p>As a second example of a trajectory, we will create a B cell trajectory from progenitor cells, through the common lymphoid progenitor and pre-B cell all the way to fully differentiated B cells. Because this analysis is essentially repeated from the monocyte trajectory in the previous section, we do not provide explanations for the code snippets. If you are trying to learn how to perform trajectory analysis, check out the monocyte trajectory section in this chapter instead.</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb363-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">plotEmbedding</span>(<span class="dt">ArchRProj =</span> projHeme5, <span class="dt">colorBy =</span> <span class="st">&quot;cellColData&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;Clusters&quot;</span>, <span class="dt">embedding =</span> <span class="st">&quot;UMAP&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotEmbedding-15e1340853c58-Date-2020-04-15_Time-15-04-41.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Getting UMAP Embedding<br />
+## ColorBy = cellColData<br />
+## Plotting Embedding<br />
+## 1<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotEmbedding-15e1340853c58-Date-2020-04-15_Time-15-04-41.log</p>
+</blockquote>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb364-1"></a>p2 &lt;-<span class="st"> </span><span class="kw">plotEmbedding</span>(<span class="dt">ArchRProj =</span> projHeme5, <span class="dt">colorBy =</span> <span class="st">&quot;cellColData&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;Clusters2&quot;</span>, <span class="dt">embedding =</span> <span class="st">&quot;UMAP&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotEmbedding-15e1326401e05-Date-2020-04-15_Time-15-04-42.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Getting UMAP Embedding<br />
+## ColorBy = cellColData<br />
+## Plotting Embedding<br />
+## 1<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotEmbedding-15e1326401e05-Date-2020-04-15_Time-15-04-42.log</p>
+</blockquote>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb365-1"></a><span class="kw">ggAlignPlots</span>(p1, p2, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</span></code></pre></div>
+<p><img src="images/HemeWalkthrough/PNG/Plot-UMAP-Clusters12-Combined_1.png" width="800" height="400" /></p>
+<div id="pseudo-time-umaps-and-individual-feature-plots-1" class="section level3" number="16.2.1">
+<h3><span class="header-section-number">16.2.1</span> Pseudo-time UMAPs and individual feature plots</h3>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb366-1"></a>trajectory &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Progenitor&quot;</span>, <span class="st">&quot;CLP&quot;</span>, <span class="st">&quot;PreB&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
+<span id="cb366-2"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb366-2"></a>trajectory</span></code></pre></div>
+<blockquote>
+<p>## [1] “Progenitor” “CLP” “PreB” “B”</p>
+</blockquote>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb367-1"></a>projHeme5 &lt;-<span class="st"> </span><span class="kw">addTrajectory</span>(</span>
+<span id="cb367-2"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb367-2"></a>    <span class="dt">ArchRProj =</span> projHeme5, </span>
+<span id="cb367-3"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb367-3"></a>    <span class="dt">name =</span> <span class="st">&quot;LymphoidU&quot;</span>, </span>
+<span id="cb367-4"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb367-4"></a>    <span class="dt">groupBy =</span> <span class="st">&quot;Clusters2&quot;</span>,</span>
+<span id="cb367-5"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb367-5"></a>    <span class="dt">trajectory =</span> trajectory, </span>
+<span id="cb367-6"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb367-6"></a>    <span class="dt">embedding =</span> <span class="st">&quot;UMAP&quot;</span>, </span>
+<span id="cb367-7"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb367-7"></a>    <span class="dt">force =</span> <span class="ot">TRUE</span></span>
+<span id="cb367-8"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb367-8"></a>)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-addTrajectory-15e1351d16b68-Date-2020-04-15_Time-15-04-55.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Filtering outliers<br />
+## Initial Alignment Before Spline Fit<br />
+## Spline Fit<br />
+## KNN to Spline<br />
+## Aligning cells not in trajectory<br />
+## ArchR logging successful to : ArchRLogs/ArchR-addTrajectory-15e1351d16b68-Date-2020-04-15_Time-15-04-55.log</p>
+</blockquote>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb368-1"></a><span class="kw">head</span>(projHeme5<span class="op">$</span>LymphoidU[<span class="op">!</span><span class="kw">is.na</span>(projHeme5<span class="op">$</span>LymphoidU)]) <span class="co">#NA means not in trajectory</span></span></code></pre></div>
+<blockquote>
+<p>## [1] 87.630792 81.913303 84.342302 81.763827 83.632287 4.073244</p>
+</blockquote>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb369-1"></a>p &lt;-<span class="st"> </span><span class="kw">plotTrajectory</span>(projHeme5, <span class="dt">trajectory =</span> <span class="st">&quot;LymphoidU&quot;</span>, <span class="dt">colorBy =</span> <span class="st">&quot;cellColData&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;LymphoidU&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectory-15e1377b52455-Date-2020-04-15_Time-15-04-56.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Plotting<br />
+## Warning: Removed 7575 rows containing non-finite values (stat_summary_hex).<br />
+## Plotting Trajectory<br />
+## Adding Inferred Arrow Trajectory to Plot<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectory-15e1377b52455-Date-2020-04-15_Time-15-04-56.log</p>
+</blockquote>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb370-1"></a>p[[<span class="dv">1</span>]]</span></code></pre></div>
+<blockquote>
+<p>## Warning: Removed 7575 rows containing non-finite values (stat_summary_hex).</p>
+</blockquote>
+<p><img src="images/HemeWalkthrough/PNG/Plot-LymphoidU-Traj-UMAP_1.png" width="500" height="500" /></p>
+<p>To save an editable vectorized version of this plot, we use <code>plotPDF()</code>.</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb371-1"></a><span class="kw">plotPDF</span>(p, <span class="dt">name =</span> <span class="st">&quot;Plot-LymphoidU-Traj-UMAP.pdf&quot;</span>, <span class="dt">ArchRProj =</span> projHeme5, <span class="dt">addDOC =</span> <span class="ot">FALSE</span>, <span class="dt">width =</span> <span class="dv">5</span>, <span class="dt">height =</span> <span class="dv">5</span>)</span></code></pre></div>
+<blockquote>
+<p>## [1] “plotting ggplot!”<br />
+## Warning: Removed 7575 rows containing non-finite values (stat_summary_hex).<br />
+## Warning: Removed 7575 rows containing non-finite values (stat_summary_hex).<br />
+## [1] “plotting ggplot!”<br />
+## <code>geom_smooth()</code> using method = ‘gam’ and formula ‘y ~ s(x, bs = “cs”)’<br />
+## <code>geom_smooth()</code> using method = ‘gam’ and formula ‘y ~ s(x, bs = “cs”)’<br />
+## [1] 0</p>
+</blockquote>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb372-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">plotTrajectory</span>(projHeme5, <span class="dt">trajectory =</span> <span class="st">&quot;LymphoidU&quot;</span>, <span class="dt">colorBy =</span> <span class="st">&quot;GeneScoreMatrix&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;PAX5&quot;</span>, <span class="dt">continuousSet =</span> <span class="st">&quot;horizonExtra&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>## Getting ImputeWeights<br />
+## ArchR logging to : ArchRLogs/ArchR-plotTrajectory-15e13576dc585-Date-2020-04-15_Time-15-05-20.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Getting Matrix Values…<br />
+## Getting Matrix Values…<br />
+##<br />
+## Imputing Matrix<br />
+## Using weights on disk<br />
+## Using weights on disk<br />
+## Plotting<br />
+## Warning: Removed 7575 rows containing non-finite values (stat_summary_hex).<br />
+## Plotting Trajectory<br />
+## Adding Inferred Arrow Trajectory to Plot<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectory-15e13576dc585-Date-2020-04-15_Time-15-05-20.log</p>
+</blockquote>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb373-1"></a>p2 &lt;-<span class="st"> </span><span class="kw">plotTrajectory</span>(projHeme5, <span class="dt">trajectory =</span> <span class="st">&quot;LymphoidU&quot;</span>, <span class="dt">colorBy =</span> <span class="st">&quot;GeneIntegrationMatrix&quot;</span>, <span class="dt">name =</span> <span class="st">&quot;PAX5&quot;</span>, <span class="dt">continuousSet =</span> <span class="st">&quot;blueYellow&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>## Getting ImputeWeights<br />
+## ArchR logging to : ArchRLogs/ArchR-plotTrajectory-15e13ed9c20a-Date-2020-04-15_Time-15-05-27.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Getting Matrix Values…<br />
+## Getting Matrix Values…<br />
+##<br />
+## Imputing Matrix<br />
+## Using weights on disk<br />
+## Using weights on disk<br />
+## Plotting<br />
+## Warning: Removed 7575 rows containing non-finite values (stat_summary_hex).<br />
+## Plotting Trajectory<br />
+## Adding Inferred Arrow Trajectory to Plot<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectory-15e13ed9c20a-Date-2020-04-15_Time-15-05-27.log</p>
+</blockquote>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb374-1"></a><span class="kw">ggAlignPlots</span>(p1[[<span class="dv">1</span>]], p2[[<span class="dv">1</span>]], <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>## Warning: Removed 7575 rows containing non-finite values (stat_summary_hex).<br />
+## Warning: Removed 7575 rows containing non-finite values (stat_summary_hex).</p>
+</blockquote>
+<p><img src="images/HemeWalkthrough/PNG/Plot-UMAP-PAX5-Combined_1.png" width="800" height="400" /></p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb375-1"></a><span class="kw">ggAlignPlots</span>(p1[[<span class="dv">2</span>]], p2[[<span class="dv">2</span>]], <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>## <code>geom_smooth()</code> using method = ‘gam’ and formula ‘y ~ s(x, bs = “cs”)’<br />
+## <code>geom_smooth()</code> using method = ‘gam’ and formula ‘y ~ s(x, bs = “cs”)’</p>
+</blockquote>
+<p><img src="images/HemeWalkthrough/PNG/Plot-UMAP-PAX5-Combined2_1.png" width="800" height="400" /></p>
+</div>
+<div id="pseudo-time-heatmaps-1" class="section level3" number="16.2.2">
+<h3><span class="header-section-number">16.2.2</span> Pseudo-time heatmaps</h3>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb376-1"></a>trajMM  &lt;-<span class="st"> </span><span class="kw">getTrajectory</span>(<span class="dt">ArchRProj =</span> projHeme5, <span class="dt">name =</span> <span class="st">&quot;LymphoidU&quot;</span>, <span class="dt">useMatrix =</span> <span class="st">&quot;MotifMatrix&quot;</span>, <span class="dt">log2Norm =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<blockquote>
+<p>## Creating Trajectory Group Matrix..<br />
+## Some values are below 0, this could be a DeviationsMatrix in which scaleTo should be set = NULL.<br />
+## Continuing without depth normalization!<br />
+## Smoothing…</p>
+</blockquote>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb377-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajMM, <span class="dt">pal =</span> <span class="kw">paletteContinuous</span>(<span class="dt">set =</span> <span class="st">&quot;solarExtra&quot;</span>))</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e133830d097-Date-2020-04-15_Time-15-06-14.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## useSeqnames is NULL or greater than 1 with a Sparse.Assays.Matrix trajectory input.<br />
+## 2020-04-15 15:06:15 :<br />
+## force=FALSE thus continuing with subsetting useSeqnames = z<br />
+## 2020-04-15 15:06:15 :<br />
+## Removing rows with NA values…<br />
+## 2020-04-15 15:06:15 :<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e133830d097-Date-2020-04-15_Time-15-06-14.log</p>
+</blockquote>
+<p><img src="images/HemeWalkthrough/PNG/Plot-LymphoidU-Traj-Heatmaps_1.png" width="600" height="800" /></p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb378-1"></a>trajGSM &lt;-<span class="st"> </span><span class="kw">getTrajectory</span>(<span class="dt">ArchRProj =</span> projHeme5, <span class="dt">name =</span> <span class="st">&quot;LymphoidU&quot;</span>, <span class="dt">useMatrix =</span> <span class="st">&quot;GeneScoreMatrix&quot;</span>, <span class="dt">log2Norm =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<blockquote>
+<p>## Creating Trajectory Group Matrix..<br />
+## Smoothing…</p>
+</blockquote>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb379-1"></a>p2 &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajGSM,  <span class="dt">pal =</span> <span class="kw">paletteContinuous</span>(<span class="dt">set =</span> <span class="st">&quot;horizonExtra&quot;</span>))</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e13357a3282-Date-2020-04-15_Time-15-06-36.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e13357a3282-Date-2020-04-15_Time-15-06-36.log</p>
+</blockquote>
+<p><img src="images/HemeWalkthrough/PNG/Plot-LymphoidU-Traj-Heatmaps_2.png" width="600" height="800" /></p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb380-1"></a>trajGIM &lt;-<span class="st"> </span><span class="kw">getTrajectory</span>(<span class="dt">ArchRProj =</span> projHeme5, <span class="dt">name =</span> <span class="st">&quot;LymphoidU&quot;</span>, <span class="dt">useMatrix =</span> <span class="st">&quot;GeneIntegrationMatrix&quot;</span>, <span class="dt">log2Norm =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<blockquote>
+<p>## Creating Trajectory Group Matrix..<br />
+## Smoothing…</p>
+</blockquote>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb381-1"></a>p3 &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajGIM,  <span class="dt">pal =</span> <span class="kw">paletteContinuous</span>(<span class="dt">set =</span> <span class="st">&quot;blueYellow&quot;</span>))</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e131325dad9-Date-2020-04-15_Time-15-07-06.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e131325dad9-Date-2020-04-15_Time-15-07-06.log</p>
+</blockquote>
+<p><img src="images/HemeWalkthrough/PNG/Plot-LymphoidU-Traj-Heatmaps_3.png" width="600" height="800" /></p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb382-1"></a>trajPM  &lt;-<span class="st"> </span><span class="kw">getTrajectory</span>(<span class="dt">ArchRProj =</span> projHeme5, <span class="dt">name =</span> <span class="st">&quot;LymphoidU&quot;</span>, <span class="dt">useMatrix =</span> <span class="st">&quot;PeakMatrix&quot;</span>, <span class="dt">log2Norm =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<blockquote>
+<p>## Creating Trajectory Group Matrix..<br />
+## Smoothing…</p>
+</blockquote>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb383-1"></a>p4 &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajPM, <span class="dt">pal =</span> <span class="kw">paletteContinuous</span>(<span class="dt">set =</span> <span class="st">&quot;solarExtra&quot;</span>))</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e1351d7cd4d-Date-2020-04-15_Time-15-07-48.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e1351d7cd4d-Date-2020-04-15_Time-15-07-48.log</p>
+</blockquote>
+<p><img src="images/HemeWalkthrough/PNG/Plot-LymphoidU-Traj-Heatmaps_4.png" width="600" height="800" /></p>
+<p>To save an editable vectorized version of this plot, we use <code>plotPDF()</code>.</p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb384-1"></a><span class="kw">plotPDF</span>(p1, p2, p3, p4, <span class="dt">name =</span> <span class="st">&quot;Plot-LymphoidU-Traj-Heatmaps.pdf&quot;</span>, <span class="dt">ArchRProj =</span> projHeme5, <span class="dt">addDOC =</span> <span class="ot">FALSE</span>, <span class="dt">width =</span> <span class="dv">6</span>, <span class="dt">height =</span> <span class="dv">8</span>)</span></code></pre></div>
+<blockquote>
+<p>## [1] 0</p>
+</blockquote>
+</div>
+<div id="integrative-pseudo-time-analyses-1" class="section level3" number="16.2.3">
+<h3><span class="header-section-number">16.2.3</span> Integrative pseudo-time analyses</h3>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb385-1"></a>corGSM_MM &lt;-<span class="st"> </span><span class="kw">correlateTrajectories</span>(trajGSM, trajMM)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-correlateTrajectories-15e133e72f66-Date-2020-04-15_Time-15-08-26.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Found 16 Correlated Pairings!<br />
+## 2020-04-15 15:08:47 :</p>
+</blockquote>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb386-1"></a>corGSM_MM[[<span class="dv">1</span>]]<span class="op">$</span>matchname1</span></code></pre></div>
+<blockquote>
+<p>## [1] “CREM” “NFE2” “FOXO1” “JDP2” “MAFG” “MAFG” “RFX2” “KLF2”<br />
+## [9] “CEBPA” “CEBPA” “FOSL2” “BCL11A” “GATA2” “IRF2” “IRF4” “PAX5”</p>
+</blockquote>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb387-1"></a>corGSM_MM[[<span class="dv">1</span>]]</span></code></pre></div>
+<blockquote>
+<p>## DataFrame with 16 rows and 12 columns<br />
+## idx1 idx2 matchname1 matchname2 name1 name2<br />
+## <integer> <integer> <array> <array> <character> <character><br />
+## 1 2503 978 CREM CREM chr10:CREM z:CREM_108<br />
+## 2 5181 989 NFE2 NFE2 chr12:NFE2 z:NFE2_119<br />
+## 3 5958 1231 FOXO1 FOXO1 chr13:FOXO1 z:FOXO1_361<br />
+## 4 6721 995 JDP2 JDP2 chr14:JDP2 z:JDP2_125<br />
+## 5 10077 1018 MAFG MAFG chr17:MAFG z:MAFG_148<br />
+## … … … … … … …<br />
+## 12 12398 1064 BCL11A BCL11A chr2:BCL11A z:BCL11A_194<br />
+## 13 15802 1258 GATA2 GATA2 chr3:GATA2 z:GATA2_388<br />
+## 14 17102 1504 IRF2 IRF2 chr4:IRF2 z:IRF2_634<br />
+## 15 18161 1502 IRF4 IRF4 chr6:IRF4 z:IRF4_632<br />
+## 16 21499 1579 PAX5 PAX5 chr9:PAX5 z:PAX5_709<br />
+## Correlation VarAssay1 VarAssay2 TStat<br />
+## <numeric> <numeric> <numeric> <numeric><br />
+## 1 0.592000045415225 0.812340554330436 0.875287356321839 7.27165360687288<br />
+## 2 0.762361661991419 0.993427595451204 0.989655172413793 11.6618731859923<br />
+## 3 0.658467426103544 0.855580057940935 0.879310344827586 8.66119456905554<br />
+## 4 0.649844641802372 0.819518311929779 0.991954022988506 8.46390278863183<br />
+## 5 0.502090536187102 0.886798979547715 0.935632183908046 5.74740534991767<br />
+## … … … … …<br />
+## 12 0.609993999834133 0.867557400441043 0.968965517241379 7.62062915462215<br />
+## 13 0.549172289236984 0.945561464954382 0.986781609195402 6.5052874492361<br />
+## 14 0.643963832332729 0.828685086695205 0.970114942528736 8.33261518735298<br />
+## 15 0.536406221175027 0.8282526916591 0.952873563218391 6.2919464214338<br />
+## 16 0.803092200275283 0.978942361741687 0.962068965517241 13.3425248033796<br />
+## Pval FDR<br />
+## <numeric> <numeric><br />
+## 1 8.76476821331047e-11 4.6198810517901e-09<br />
+## 2 3.15171893793416e-20 1.02998174891688e-17<br />
+## 3 9.66043618744996e-14 1.43501388457211e-11<br />
+## 4 2.57124018372512e-13 3.50117205017237e-11<br />
+## 5 1.02530728526766e-07 2.83957983750399e-06<br />
+## … … …<br />
+## 12 1.62079037573397e-11 1.10348811414554e-09<br />
+## 13 3.29134663353072e-09 1.25071172074167e-07<br />
+## 14 4.92446003514203e-13 6.18966745955545e-11<br />
+## 15 8.81247545774464e-09 2.93869079550097e-07<br />
+## 16 9.15917087670499e-24 3.74152130313399e-21</p>
+</blockquote>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb388-1"></a>trajGSM2 &lt;-<span class="st"> </span>trajGSM[corGSM_MM[[<span class="dv">1</span>]]<span class="op">$</span>name1, ]</span>
+<span id="cb388-2"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb388-2"></a>trajMM2 &lt;-<span class="st"> </span>trajMM[corGSM_MM[[<span class="dv">1</span>]]<span class="op">$</span>name2, ]</span>
+<span id="cb388-3"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb388-3"></a></span>
+<span id="cb388-4"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb388-4"></a>trajCombined &lt;-<span class="st"> </span>trajGSM2</span>
+<span id="cb388-5"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb388-5"></a><span class="kw">assay</span>(trajCombined) &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">apply</span>(<span class="kw">assay</span>(trajGSM2), <span class="dv">1</span>, scale)) <span class="op">+</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">apply</span>(<span class="kw">assay</span>(trajMM2), <span class="dv">1</span>, scale))</span>
+<span id="cb388-6"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb388-6"></a></span>
+<span id="cb388-7"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb388-7"></a>combinedMat &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajCombined, <span class="dt">returnMat =</span> <span class="ot">TRUE</span>, <span class="dt">varCutOff =</span> <span class="dv">0</span>)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e136c64f4ee-Date-2020-04-15_Time-15-08-47.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e136c64f4ee-Date-2020-04-15_Time-15-08-47.log</p>
+</blockquote>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb389-1"></a>rowOrder &lt;-<span class="st"> </span><span class="kw">match</span>(<span class="kw">rownames</span>(combinedMat), <span class="kw">rownames</span>(trajGSM2))</span>
+<span id="cb389-2"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb389-2"></a></span>
+<span id="cb389-3"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb389-3"></a>ht1 &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajGSM2,  <span class="dt">pal =</span> <span class="kw">paletteContinuous</span>(<span class="dt">set =</span> <span class="st">&quot;horizonExtra&quot;</span>),  <span class="dt">varCutOff =</span> <span class="dv">0</span>, <span class="dt">rowOrder =</span> rowOrder)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e1344a2d751-Date-2020-04-15_Time-15-08-47.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e1344a2d751-Date-2020-04-15_Time-15-08-47.log</p>
+</blockquote>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb390-1"></a>ht2 &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajMM2,  <span class="dt">pal =</span> <span class="kw">paletteContinuous</span>(<span class="dt">set =</span> <span class="st">&quot;solarExtra&quot;</span>), <span class="dt">varCutOff =</span> <span class="dv">0</span>, <span class="dt">rowOrder =</span> rowOrder)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e1365304b53-Date-2020-04-15_Time-15-08-48.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## useSeqnames is NULL or greater than 1 with a Sparse.Assays.Matrix trajectory input.<br />
+## 2020-04-15 15:08:49 :<br />
+## force=FALSE thus continuing with subsetting useSeqnames = z<br />
+## 2020-04-15 15:08:49 :<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e1365304b53-Date-2020-04-15_Time-15-08-48.log</p>
+</blockquote>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb391-1"></a>ht1 <span class="op">+</span><span class="st"> </span>ht2</span></code></pre></div>
+<p><img src="images/HemeWalkthrough/PNG/Plot-LymphoidU-GS-TF_1.png" width="800" height="600" /></p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb392-1"></a>corGIM_MM &lt;-<span class="st"> </span><span class="kw">correlateTrajectories</span>(trajGIM, trajMM)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-correlateTrajectories-15e134c10b516-Date-2020-04-15_Time-15-09-05.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Found 37 Correlated Pairings!<br />
+## 2020-04-15 15:09:20 :</p>
+</blockquote>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb393-1"></a>corGIM_MM[[<span class="dv">1</span>]]<span class="op">$</span>matchname1</span></code></pre></div>
+<blockquote>
+<p>## [1] “NFIA” “NFKB2” “IRF7” “ETS1” “NFE2” “STAT2” “FOXO1”<br />
+## [8] “IRF9” “FOS” “MEF2A” “IRF8” “MAFG” “TCF4” “TCF3”<br />
+## [15] “NFIC” “KLF2” “CEBPA” “POU2F2” “FOSB” “FOSL2” “REL”<br />
+## [22] “NFE2L2” “CREB1” “RUNX1” “ATF4” “SMARCC1” “FOXP1” “GATA2”<br />
+## [29] “HLTF” “REST” “LEF1” “IRF2” “MEF2C” “IRF1” “EBF1”<br />
+## [36] “TFEB” “PAX5”</p>
+</blockquote>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb394-1"></a>corGIM_MM[[<span class="dv">1</span>]]</span></code></pre></div>
+<blockquote>
+<p>## DataFrame with 37 rows and 12 columns<br />
+## idx1 idx2 matchname1 matchname2 name1 name2<br />
+## <integer> <integer> <array> <array> <character> <character><br />
+## 1 680 1612 NFIA NFIA chr1:NFIA z:NFIA_742<br />
+## 2 2428 1584 NFKB2 NFKB2 chr10:NFKB2 z:NFKB2_714<br />
+## 3 2625 1505 IRF7 IRF7 chr11:IRF7 z:IRF7_635<br />
+## 4 3790 1202 ETS1 ETS1 chr11:ETS1 z:ETS1_332<br />
+## 5 4287 989 NFE2 NFE2 chr12:NFE2 z:NFE2_119<br />
+## … … … … … … …<br />
+## 33 14165 1510 MEF2C MEF2C chr5:MEF2C z:MEF2C_640<br />
+## 34 14287 1499 IRF1 IRF1 chr5:IRF1 z:IRF1_629<br />
+## 35 14558 937 EBF1 EBF1 chr5:EBF1 z:EBF1_67<br />
+## 36 15164 902 TFEB TFEB chr6:TFEB z:TFEB_32<br />
+## 37 17354 1579 PAX5 PAX5 chr9:PAX5 z:PAX5_709<br />
+## Correlation VarAssay1 VarAssay2 TStat<br />
+## <numeric> <numeric> <numeric> <numeric><br />
+## 1 0.776554032919386 0.895435729261868 0.955747126436782 12.2013882485613<br />
+## 2 0.842642341279197 0.893070265039514 0.88735632183908 15.4914421620131<br />
+## 3 0.829368082571345 0.919144132035912 0.91551724137931 14.6953411117392<br />
+## 4 0.85457028998599 0.947529702704156 0.901724137931034 16.2896821299438<br />
+## 5 0.710070464598055 0.928874791677867 0.989655172413793 9.98300419241652<br />
+## … … … … …<br />
+## 33 0.65886205886934 0.990860706413634 0.904597701149425 8.67036514488553<br />
+## 34 0.852573236159675 0.977151766034084 0.981609195402299 16.1498641717228<br />
+## 35 0.947958169110169 0.986344820170959 0.992528735632184 29.4737987999312<br />
+## 36 0.71455800087286 0.934842212784259 0.842528735632184 10.1114979100535<br />
+## 37 0.835610609654717 0.968066232998226 0.962068965517241 15.0587807907066<br />
+## Pval FDR<br />
+## <numeric> <numeric><br />
+## 1 2.24403341264388e-21 3.40224420626652e-20<br />
+## 2 4.28486739529724e-28 1.38888805226876e-26<br />
+## 3 1.61521163596779e-26 4.05409887519786e-25<br />
+## 4 1.21844806414286e-29 5.72670590147145e-28<br />
+## 5 1.31753444224449e-16 1.51034436062174e-15<br />
+## … … …<br />
+## 33 9.23012667696911e-14 7.74671346102765e-13<br />
+## 34 2.25997962853195e-29 9.23643848182623e-28<br />
+## 35 1.65431752552523e-50 3.88764618498429e-48<br />
+## 36 6.93337834458196e-17 8.04614277025561e-16<br />
+## 37 3.05084830514743e-27 8.43469825540759e-26</p>
+</blockquote>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb395-1"></a>trajGIM2 &lt;-<span class="st"> </span>trajGIM[corGIM_MM[[<span class="dv">1</span>]]<span class="op">$</span>name1, ]</span>
+<span id="cb395-2"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb395-2"></a>trajMM2 &lt;-<span class="st"> </span>trajMM[corGIM_MM[[<span class="dv">1</span>]]<span class="op">$</span>name2, ]</span>
+<span id="cb395-3"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb395-3"></a></span>
+<span id="cb395-4"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb395-4"></a>trajCombined &lt;-<span class="st"> </span>trajGIM2</span>
+<span id="cb395-5"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb395-5"></a><span class="kw">assay</span>(trajCombined) &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">apply</span>(<span class="kw">assay</span>(trajGIM2), <span class="dv">1</span>, scale)) <span class="op">+</span><span class="st"> </span><span class="kw">t</span>(<span class="kw">apply</span>(<span class="kw">assay</span>(trajMM2), <span class="dv">1</span>, scale))</span>
+<span id="cb395-6"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb395-6"></a></span>
+<span id="cb395-7"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb395-7"></a>combinedMat &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajCombined, <span class="dt">returnMat =</span> <span class="ot">TRUE</span>, <span class="dt">varCutOff =</span> <span class="dv">0</span>)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e131cd6b30f-Date-2020-04-15_Time-15-09-21.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e131cd6b30f-Date-2020-04-15_Time-15-09-21.log</p>
+</blockquote>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb396-1"></a>rowOrder &lt;-<span class="st"> </span><span class="kw">match</span>(<span class="kw">rownames</span>(combinedMat), <span class="kw">rownames</span>(trajGIM2))</span>
+<span id="cb396-2"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb396-2"></a></span>
+<span id="cb396-3"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb396-3"></a>ht1 &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajGIM2,  <span class="dt">pal =</span> <span class="kw">paletteContinuous</span>(<span class="dt">set =</span> <span class="st">&quot;blueYellow&quot;</span>),  <span class="dt">varCutOff =</span> <span class="dv">0</span>, <span class="dt">rowOrder =</span> rowOrder)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e137c439868-Date-2020-04-15_Time-15-09-21.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e137c439868-Date-2020-04-15_Time-15-09-21.log</p>
+</blockquote>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb397-1"></a>ht2 &lt;-<span class="st"> </span><span class="kw">plotTrajectoryHeatmap</span>(trajMM2, <span class="dt">pal =</span> <span class="kw">paletteContinuous</span>(<span class="dt">set =</span> <span class="st">&quot;solarExtra&quot;</span>), <span class="dt">varCutOff =</span> <span class="dv">0</span>, <span class="dt">rowOrder =</span> rowOrder)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e13755647e8-Date-2020-04-15_Time-15-09-22.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## useSeqnames is NULL or greater than 1 with a Sparse.Assays.Matrix trajectory input.<br />
+## 2020-04-15 15:09:23 :<br />
+## force=FALSE thus continuing with subsetting useSeqnames = z<br />
+## 2020-04-15 15:09:23 :<br />
+## Preparing Main Heatmap..<br />
+## ArchR logging successful to : ArchRLogs/ArchR-plotTrajectoryHeatmap-15e13755647e8-Date-2020-04-15_Time-15-09-22.log</p>
+</blockquote>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="lymphoid-trajectory-b-cell-cifferentiation.html#cb398-1"></a>ht1 <span class="op">+</span><span class="st"> </span>ht2</span></code></pre></div>
+<p><img src="images/HemeWalkthrough/PNG/Plot-LymphoidU-GEx-TF_1.png" width="800" height="600" /></p>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="myeloid-trajectory-monocyte-differentiation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="plot-aesthetics-in-archr.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": null
+},
+"fontsettings": null,
+"edit": null,
+"history": {
+"link": "https://github.com/GreenleafLab/ArchR_Website/commits/dev/16_Trajectory.Rmd",
+"text": "Chapter edit history"
+},
+"view": {
+"link": "https://github.com/GreenleafLab/ArchR_Website/view/dev/16_Trajectory.Rmd",
+"text": "View source on GitHub"
+},
+"download": ["ArchR.pdf"],
+"toc": {
+"collapse": "none"
+},
+"search": true,
+"info": false
+});
+});
+</script>
+
+</body>
+
+</html>

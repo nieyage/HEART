@@ -1,0 +1,27 @@
+library("scales")
+library("ggsci")
+mypal =pal_jama("default", alpha =0.7)(7)
+mypal =pal_npg("nrc", alpha =0.7)(10)
+mypal =pal_aaas("default", alpha =0.7)(9)
+mypal =pal_lancet("lanonc", alpha =0.7)(9)
+mypal =pal_jco("default", alpha =0.7)(9)
+mypal =pal_rickandmorty("schwifty", alpha =0.7)(9)
+mypal =pal_locuszoom("default", alpha =0.7)(7)
+mypal =pal_igv("default", alpha =0.7)(9)
+mypal =pal_startrek("uniform", alpha =0.7)(7)
+mypal =pal_material("red", alpha =0.7)(9)
+mypal =pal_material("cyan", alpha =0.7)(9)
+mypal =pal_material("blue", alpha =0.7)(10)
+mypal =pal_material("yellow", alpha =0.7)(10)
+mypal =pal_material("amber", alpha =0.7)(10)
+mypal =pal_material("orange", alpha =0.7)(10)
+mypal =pal_material("deep-orange", alpha =0.7)(10)
+mypal =pal_simpsons("springfield", alpha =0.7)(10)
+mypal =pal_tron("legacy", alpha =0.7)(7)
+mypal =pal_futurama("planetexpress", alpha =0.7)(9)
+
+mypal
+show_col(mypal)
+show_col("#E89242B2")
+
+

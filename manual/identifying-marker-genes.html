@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7.3 Identifying Marker Genes | ArchR: Robust and scaleable analysis of single-cell chromatin accessibility data.</title>
+  <meta name="description" content="A guide to ArchR" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7.3 Identifying Marker Genes | ArchR: Robust and scaleable analysis of single-cell chromatin accessibility data." />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A guide to ArchR" />
+  <meta name="github-repo" content="GreenleafLab/ArchR" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7.3 Identifying Marker Genes | ArchR: Robust and scaleable analysis of single-cell chromatin accessibility data." />
+  
+  <meta name="twitter:description" content="A guide to ArchR" />
+  
+
+<meta name="author" content="Jeffrey Granja and Ryan Corces" />
+
+
+<meta name="date" content="2020-05-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="identification-of-marker-features.html"/>
+<link rel="next" href="visualizing-marker-genes-on-an-embedding.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://www.archrproject.com/index.html">Back to ArchR Home</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#section"><img src="images/ArchR_Logo_Integrated.png" alt="" width="200"></a></li>
+<li class="chapter" data-level="1" data-path="getting-started-with-archr.html"><a href="getting-started-with-archr.html"><i class="fa fa-check"></i><b>1</b> Getting Started with ArchR</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="a-brief-primer-on-atac-seq-terminology.html"><a href="a-brief-primer-on-atac-seq-terminology.html"><i class="fa fa-check"></i><b>1.1</b> A Brief Primer on ATAC-seq Terminology</a></li>
+<li class="chapter" data-level="1.2" data-path="why-use-archr.html"><a href="why-use-archr.html"><i class="fa fa-check"></i><b>1.2</b> Why use ArchR?</a></li>
+<li class="chapter" data-level="1.3" data-path="what-is-an-arrow-file-archrproject.html"><a href="what-is-an-arrow-file-archrproject.html"><i class="fa fa-check"></i><b>1.3</b> What is an Arrow file / <code>ArchRProject</code>?</a></li>
+<li class="chapter" data-level="1.4" data-path="input-file-types-in-archr.html"><a href="input-file-types-in-archr.html"><i class="fa fa-check"></i><b>1.4</b> Input File Types in ArchR</a></li>
+<li class="chapter" data-level="1.5" data-path="getting-set-up.html"><a href="getting-set-up.html"><i class="fa fa-check"></i><b>1.5</b> Getting Set Up</a></li>
+<li class="chapter" data-level="1.6" data-path="creating-arrow-files.html"><a href="creating-arrow-files.html"><i class="fa fa-check"></i><b>1.6</b> Creating Arrow Files</a></li>
+<li class="chapter" data-level="1.7" data-path="per-cell-quality-control.html"><a href="per-cell-quality-control.html"><i class="fa fa-check"></i><b>1.7</b> Per-cell Quality Control</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="doublet-inference-with-archr.html"><a href="doublet-inference-with-archr.html"><i class="fa fa-check"></i><b>2</b> Doublet Inference with ArchR</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="how-does-doublet-identification-work-in-archr.html"><a href="how-does-doublet-identification-work-in-archr.html"><i class="fa fa-check"></i><b>2.1</b> How does doublet identification work in ArchR?</a></li>
+<li class="chapter" data-level="2.2" data-path="inferring-scatac-seq-doublets-with-archr.html"><a href="inferring-scatac-seq-doublets-with-archr.html"><i class="fa fa-check"></i><b>2.2</b> Inferring scATAC-seq Doublets with ArchR</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="creating-an-archrproject.html"><a href="creating-an-archrproject.html"><i class="fa fa-check"></i><b>3</b> Creating an ArchRProject</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="creating-an-archrproject-1.html"><a href="creating-an-archrproject-1.html"><i class="fa fa-check"></i><b>3.1</b> Creating An ArchRProject</a></li>
+<li class="chapter" data-level="3.2" data-path="manipulating-an-archrproject.html"><a href="manipulating-an-archrproject.html"><i class="fa fa-check"></i><b>3.2</b> Manipulating An ArchRProject</a></li>
+<li class="chapter" data-level="3.3" data-path="plotting-sample-statistics-from-an-archrproject.html"><a href="plotting-sample-statistics-from-an-archrproject.html"><i class="fa fa-check"></i><b>3.3</b> Plotting Sample Statistics from an ArchRProject</a></li>
+<li class="chapter" data-level="3.4" data-path="plotting-sample-fragment-size-distribution-and-tss-enrichment-profiles-.html"><a href="plotting-sample-fragment-size-distribution-and-tss-enrichment-profiles-.html"><i class="fa fa-check"></i><b>3.4</b> Plotting Sample Fragment Size Distribution and TSS Enrichment Profiles.</a></li>
+<li class="chapter" data-level="3.5" data-path="saving-and-loading-an-archrproject.html"><a href="saving-and-loading-an-archrproject.html"><i class="fa fa-check"></i><b>3.5</b> Saving and Loading an <code>ArchRProject</code></a></li>
+<li class="chapter" data-level="3.6" data-path="filtering-doublets-from-an-archrproject.html"><a href="filtering-doublets-from-an-archrproject.html"><i class="fa fa-check"></i><b>3.6</b> Filtering Doublets from an ArchRProject</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dimensionality-reduction-with-archr.html"><a href="dimensionality-reduction-with-archr.html"><i class="fa fa-check"></i><b>4</b> Dimensionality Reduction with ArchR</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="archrs-lsi-implementation.html"><a href="archrs-lsi-implementation.html"><i class="fa fa-check"></i><b>4.1</b> ArchR’s LSI Implementation</a></li>
+<li class="chapter" data-level="4.2" data-path="iterative-latent-semantic-indexing-lsi.html"><a href="iterative-latent-semantic-indexing-lsi.html"><i class="fa fa-check"></i><b>4.2</b> Iterative Latent Semantic Indexing (LSI)</a></li>
+<li class="chapter" data-level="4.3" data-path="estimated-lsi.html"><a href="estimated-lsi.html"><i class="fa fa-check"></i><b>4.3</b> Estimated LSI</a></li>
+<li class="chapter" data-level="4.4" data-path="batch-effect-correction-wtih-harmony.html"><a href="batch-effect-correction-wtih-harmony.html"><i class="fa fa-check"></i><b>4.4</b> Batch Effect Correction wtih Harmony</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="clustering-with-archr.html"><a href="clustering-with-archr.html"><i class="fa fa-check"></i><b>5</b> Clustering with ArchR</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="clustering-using-seurats-findclusters-function.html"><a href="clustering-using-seurats-findclusters-function.html"><i class="fa fa-check"></i><b>5.1</b> Clustering using Seurat’s <code>FindClusters()</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="single-cell-embeddings.html"><a href="single-cell-embeddings.html"><i class="fa fa-check"></i><b>6</b> Single-cell Embeddings</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="uniform-manifold-approximation-and-projection-umap.html"><a href="uniform-manifold-approximation-and-projection-umap.html"><i class="fa fa-check"></i><b>6.1</b> Uniform Manifold Approximation and Projection (UMAP)</a></li>
+<li class="chapter" data-level="6.2" data-path="t-stocastic-neighbor-embedding-t-sne.html"><a href="t-stocastic-neighbor-embedding-t-sne.html"><i class="fa fa-check"></i><b>6.2</b> t-Stocastic Neighbor Embedding (t-SNE)</a></li>
+<li class="chapter" data-level="6.3" data-path="dimensionality-reduction-after-harmony.html"><a href="dimensionality-reduction-after-harmony.html"><i class="fa fa-check"></i><b>6.3</b> Dimensionality Reduction After Harmony</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="gene-scores-and-marker-genes-with-archr.html"><a href="gene-scores-and-marker-genes-with-archr.html"><i class="fa fa-check"></i><b>7</b> Gene Scores and Marker Genes with ArchR</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="calculating-gene-scores-in-archr.html"><a href="calculating-gene-scores-in-archr.html"><i class="fa fa-check"></i><b>7.1</b> Calculating Gene Scores in ArchR</a></li>
+<li class="chapter" data-level="7.2" data-path="identification-of-marker-features.html"><a href="identification-of-marker-features.html"><i class="fa fa-check"></i><b>7.2</b> Identification of Marker Features</a></li>
+<li class="chapter" data-level="7.3" data-path="identifying-marker-genes.html"><a href="identifying-marker-genes.html"><i class="fa fa-check"></i><b>7.3</b> Identifying Marker Genes</a></li>
+<li class="chapter" data-level="7.4" data-path="visualizing-marker-genes-on-an-embedding.html"><a href="visualizing-marker-genes-on-an-embedding.html"><i class="fa fa-check"></i><b>7.4</b> Visualizing Marker Genes on an Embedding</a></li>
+<li class="chapter" data-level="7.5" data-path="marker-genes-imputation-with-magic.html"><a href="marker-genes-imputation-with-magic.html"><i class="fa fa-check"></i><b>7.5</b> Marker Genes Imputation with MAGIC</a></li>
+<li class="chapter" data-level="7.6" data-path="track-plotting-with-archrbrowser.html"><a href="track-plotting-with-archrbrowser.html"><i class="fa fa-check"></i><b>7.6</b> Track Plotting with ArchRBrowser</a></li>
+<li class="chapter" data-level="7.7" data-path="launching-the-archrbrowser.html"><a href="launching-the-archrbrowser.html"><i class="fa fa-check"></i><b>7.7</b> Launching the ArchRBrowser</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="defining-cluster-identity-with-scrna-seq.html"><a href="defining-cluster-identity-with-scrna-seq.html"><i class="fa fa-check"></i><b>8</b> Defining Cluster Identity with scRNA-seq</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="cross-platform-linkage-of-scatac-seq-cells-with-scrna-seq-cells.html"><a href="cross-platform-linkage-of-scatac-seq-cells-with-scrna-seq-cells.html"><i class="fa fa-check"></i><b>8.1</b> Cross-platform linkage of scATAC-seq cells with scRNA-seq cells</a></li>
+<li class="chapter" data-level="8.2" data-path="adding-pseudo-scrna-seq-profiles-for-each-scatac-seq-cell.html"><a href="adding-pseudo-scrna-seq-profiles-for-each-scatac-seq-cell.html"><i class="fa fa-check"></i><b>8.2</b> Adding Pseudo-scRNA-seq profiles for each scATAC-seq cell</a></li>
+<li class="chapter" data-level="8.3" data-path="labeling-scatac-seq-clusters-with-scrna-seq-information.html"><a href="labeling-scatac-seq-clusters-with-scrna-seq-information.html"><i class="fa fa-check"></i><b>8.3</b> Labeling scATAC-seq clusters with scRNA-seq information</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="pseudo-bulk-replicates-in-archr.html"><a href="pseudo-bulk-replicates-in-archr.html"><i class="fa fa-check"></i><b>9</b> Pseudo-bulk Replicates in ArchR</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="how-does-archr-make-pseudo-bulk-replicates.html"><a href="how-does-archr-make-pseudo-bulk-replicates.html"><i class="fa fa-check"></i><b>9.1</b> How Does ArchR Make Pseudo-bulk Replicates?</a></li>
+<li class="chapter" data-level="9.2" data-path="making-pseudo-bulk-replicates.html"><a href="making-pseudo-bulk-replicates.html"><i class="fa fa-check"></i><b>9.2</b> Making Pseudo-bulk Replicates</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="calling-peaks-with-archr.html"><a href="calling-peaks-with-archr.html"><i class="fa fa-check"></i><b>10</b> Calling Peaks with ArchR</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="the-iterative-overlap-peak-merging-procedure.html"><a href="the-iterative-overlap-peak-merging-procedure.html"><i class="fa fa-check"></i><b>10.1</b> The Iterative Overlap Peak Merging Procedure</a></li>
+<li class="chapter" data-level="10.2" data-path="calling-peaks-w-macs2.html"><a href="calling-peaks-w-macs2.html"><i class="fa fa-check"></i><b>10.2</b> Calling Peaks w/ Macs2</a></li>
+<li class="chapter" data-level="10.3" data-path="calling-peaks-w-tilematrix.html"><a href="calling-peaks-w-tilematrix.html"><i class="fa fa-check"></i><b>10.3</b> Calling Peaks w/ TileMatrix</a></li>
+<li class="chapter" data-level="10.4" data-path="add-peak-matrix.html"><a href="add-peak-matrix.html"><i class="fa fa-check"></i><b>10.4</b> Add Peak Matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="identifying-marker-peaks-with-archr.html"><a href="identifying-marker-peaks-with-archr.html"><i class="fa fa-check"></i><b>11</b> Identifying Marker Peaks with ArchR</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="identifying-marker-peaks-with-archr-1.html"><a href="identifying-marker-peaks-with-archr-1.html"><i class="fa fa-check"></i><b>11.1</b> Identifying Marker Peaks with ArchR</a></li>
+<li class="chapter" data-level="11.2" data-path="plotting-marker-peaks-in-archr.html"><a href="plotting-marker-peaks-in-archr.html"><i class="fa fa-check"></i><b>11.2</b> Plotting Marker Peaks in ArchR</a></li>
+<li class="chapter" data-level="11.3" data-path="pairwise-testing-between-groups.html"><a href="pairwise-testing-between-groups.html"><i class="fa fa-check"></i><b>11.3</b> Pairwise Testing Between Groups</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="motif-and-feature-enrichment-with-archr.html"><a href="motif-and-feature-enrichment-with-archr.html"><i class="fa fa-check"></i><b>12</b> Motif and Feature Enrichment with ArchR</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="motif-enrichment-in-differential-peaks.html"><a href="motif-enrichment-in-differential-peaks.html"><i class="fa fa-check"></i><b>12.1</b> Motif Enrichment in Differential Peaks</a></li>
+<li class="chapter" data-level="12.2" data-path="motif-enrichment-in-marker-peaks.html"><a href="motif-enrichment-in-marker-peaks.html"><i class="fa fa-check"></i><b>12.2</b> Motif Enrichment in Marker Peaks</a></li>
+<li class="chapter" data-level="12.3" data-path="archr-enrichment.html"><a href="archr-enrichment.html"><i class="fa fa-check"></i><b>12.3</b> ArchR Enrichment</a></li>
+<li class="chapter" data-level="12.4" data-path="custom-enrichment.html"><a href="custom-enrichment.html"><i class="fa fa-check"></i><b>12.4</b> Custom Enrichment</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="chromvar-deviatons-enrichment-with-archr.html"><a href="chromvar-deviatons-enrichment-with-archr.html"><i class="fa fa-check"></i><b>13</b> ChromVAR Deviatons Enrichment with ArchR</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="motif-deviations.html"><a href="motif-deviations.html"><i class="fa fa-check"></i><b>13.1</b> Motif Deviations</a></li>
+<li class="chapter" data-level="13.2" data-path="archr-and-custom-deviations.html"><a href="archr-and-custom-deviations.html"><i class="fa fa-check"></i><b>13.2</b> ArchR and Custom Deviations</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="footprinting-with-archr.html"><a href="footprinting-with-archr.html"><i class="fa fa-check"></i><b>14</b> Footprinting with ArchR</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="motif-footprinting.html"><a href="motif-footprinting.html"><i class="fa fa-check"></i><b>14.1</b> Motif Footprinting</a></li>
+<li class="chapter" data-level="14.2" data-path="normalization-of-footprints-for-tn5-bias.html"><a href="normalization-of-footprints-for-tn5-bias.html"><i class="fa fa-check"></i><b>14.2</b> Normalization of Footprints for Tn5 Bias</a></li>
+<li class="chapter" data-level="14.3" data-path="feature-footprinting.html"><a href="feature-footprinting.html"><i class="fa fa-check"></i><b>14.3</b> Feature Footprinting</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="integrative-analysis-with-archr.html"><a href="integrative-analysis-with-archr.html"><i class="fa fa-check"></i><b>15</b> Integrative Analysis with ArchR</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="creating-low-overlapping-aggregates-of-cells.html"><a href="creating-low-overlapping-aggregates-of-cells.html"><i class="fa fa-check"></i><b>15.1</b> Creating Low-Overlapping Aggregates of Cells</a></li>
+<li class="chapter" data-level="15.2" data-path="co-accessibility-with-archr.html"><a href="co-accessibility-with-archr.html"><i class="fa fa-check"></i><b>15.2</b> Co-accessibility with ArchR</a></li>
+<li class="chapter" data-level="15.3" data-path="peak2genelinkage-with-archr.html"><a href="peak2genelinkage-with-archr.html"><i class="fa fa-check"></i><b>15.3</b> Peak2GeneLinkage with ArchR</a></li>
+<li class="chapter" data-level="15.4" data-path="identification-of-positive-tf-regulators.html"><a href="identification-of-positive-tf-regulators.html"><i class="fa fa-check"></i><b>15.4</b> Identification of Positive TF-Regulators</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="trajectory-analysis-with-archr.html"><a href="trajectory-analysis-with-archr.html"><i class="fa fa-check"></i><b>16</b> Trajectory Analysis with ArchR</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="myeloid-trajectory-monocyte-differentiation.html"><a href="myeloid-trajectory-monocyte-differentiation.html"><i class="fa fa-check"></i><b>16.1</b> Myeloid Trajectory - Monocyte Differentiation</a></li>
+<li class="chapter" data-level="16.2" data-path="lymphoid-trajectory-b-cell-cifferentiation.html"><a href="lymphoid-trajectory-b-cell-cifferentiation.html"><i class="fa fa-check"></i><b>16.2</b> Lymphoid Trajectory - B Cell Cifferentiation</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="plot-aesthetics-in-archr.html"><a href="plot-aesthetics-in-archr.html"><i class="fa fa-check"></i><b>17</b> Plot aesthetics in ArchR</a></li>
+<li class="chapter" data-level="18" data-path="session-information.html"><a href="session-information.html"><i class="fa fa-check"></i><b>18</b> Session Information</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="index.html">ArchR: Robust and scaleable analysis of single-cell chromatin accessibility data.</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="identifying-marker-genes" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Identifying Marker Genes</h2>
+<p>To identify marker genes based on gene scores, we call the <code>getMarkerFeatures()</code> function with <code>useMatrix = "GeneScoreMatrix"</code>. We specify that we want to know the cluster-specific features with <code>groupBy = "Clusters"</code> which tells ArchR to use the “Clusters” column in <code>cellColData</code> to stratify cell groups.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="identifying-marker-genes.html#cb96-1"></a>markersGS &lt;-<span class="st"> </span><span class="kw">getMarkerFeatures</span>(</span>
+<span id="cb96-2"><a href="identifying-marker-genes.html#cb96-2"></a>    <span class="dt">ArchRProj =</span> projHeme2, </span>
+<span id="cb96-3"><a href="identifying-marker-genes.html#cb96-3"></a>    <span class="dt">useMatrix =</span> <span class="st">&quot;GeneScoreMatrix&quot;</span>, </span>
+<span id="cb96-4"><a href="identifying-marker-genes.html#cb96-4"></a>    <span class="dt">groupBy =</span> <span class="st">&quot;Clusters&quot;</span>,</span>
+<span id="cb96-5"><a href="identifying-marker-genes.html#cb96-5"></a>    <span class="dt">bias =</span> <span class="kw">c</span>(<span class="st">&quot;TSSEnrichment&quot;</span>, <span class="st">&quot;log10(nFrags)&quot;</span>),</span>
+<span id="cb96-6"><a href="identifying-marker-genes.html#cb96-6"></a>    <span class="dt">testMethod =</span> <span class="st">&quot;wilcoxon&quot;</span></span>
+<span id="cb96-7"><a href="identifying-marker-genes.html#cb96-7"></a>)</span></code></pre></div>
+<blockquote>
+<p>## ArchR logging to : ArchRLogs/ArchR-getMarkerFeatures-f4e4232fa80b-Date-2020-04-15_Time-10-04-48.log<br />
+## If there is an issue, please report to github with logFile!<br />
+## MatrixClass = Sparse.Double.Matrix<br />
+## 2020-04-15 10:04:49 : Matching Known Biases, 0.009 mins elapsed.
+##<br />
+## ###########<br />
+## 2020-04-15 10:05:23 : Completed Pairwise Tests, 0.585 mins elapsed.<br />
+## ###########<br />
+## ArchR logging successful to : ArchRLogs/ArchR-getMarkerFeatures-f4e4232fa80b-Date-2020-04-15_Time-10-04-48.log</p>
+</blockquote>
+<p>This function returns a <code>SummarizedExperiment</code> object containing relevant information on the marker features identified. This type of return value is common in ArchR and is one of the key ways that ArchR enables downstream data analysis. <code>SummarizedExperiment</code> objects are similar to a matrix where rows represent features of interest (i.e. genes) and columns represent samples. A <code>SummarizedExperiment</code> object contains one or more assays, each represented by a matrix-like object of numeric data, and metadata that applies to the rows or columns of the assays matrices. It is beyond the scope of this tutorial to dive into <code>SummarizedExperiment</code> objects but check out the <a href="https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html">bioconductor page</a> if you need more information.</p>
+<p>We can get a list of <code>DataFrame</code> objects, one for each of our clusters, containing the relevant marker features using the <code>getMarkers()</code> function:</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="identifying-marker-genes.html#cb97-1"></a>markerList &lt;-<span class="st"> </span><span class="kw">getMarkers</span>(markersGS, <span class="dt">cutOff =</span> <span class="st">&quot;FDR &lt;= 0.01 &amp; Log2FC &gt;= 1.25&quot;</span>)</span>
+<span id="cb97-2"><a href="identifying-marker-genes.html#cb97-2"></a>markerList<span class="op">$</span>C6</span></code></pre></div>
+<blockquote>
+<p>## DataFrame with 291 rows and 9 columns<br />
+## seqnames start end strand name idx<br />
+## <Rle> <array> <array> <array> <array> <array><br />
+## 8362 chr16 49891830 49524515 2 ZNF423 539<br />
+## 7025 chr14 105714879 105717430 1 BTBD6 764<br />
+## 8726 chr16 89043504 88941263 2 CBFA2T3 903<br />
+## 7024 chr14 105781914 105675623 2 BRF1 763<br />
+## 17158 chr5 997455 988425 2 LOC100506688 18<br />
+## … … … … … … …<br />
+## 19084 chr6 119812467 119773712 2 LOC285762 925<br />
+## 18913 chr6 83072923 83077133 1 TPBG 754<br />
+## 12814 chr2 124782864 125672863 1 CNTNAP5 755<br />
+## 20390 chr7 150147962 150176483 1 GIMAP8 1028<br />
+## 7384 chr15 52569397 52569314 2 MIR1266 347<br />
+## Log2FC FDR MeanDiff<br />
+## <numeric> <numeric> <numeric><br />
+## 8362 1.94888141545084 2.95473053609015e-21 2.08129078745695<br />
+## 7025 1.88748443360838 3.25360925877231e-15 2.29925343722754<br />
+## 8726 1.5858058377813 3.25360925877231e-15 2.11727644857422<br />
+## 7024 1.41061475820385 2.00400144783449e-14 1.9923490244715<br />
+## 17158 3.16686924437513 2.00400144783449e-14 0.693424444489265<br />
+## … … … …<br />
+## 19084 1.36625245611966 0.00853516274073803 0.211727000065234<br />
+## 18913 2.30499450627443 0.00854168013784213 0.544454051635953<br />
+## 12814 2.28305835231306 0.00893526022954534 0.82240450922043<br />
+## 20390 1.52933035478039 0.00910586862792073 0.516763460205267<br />
+## 7384 2.16292224987129 0.00986664274558125 0.22839476831448</p>
+</blockquote>
+<p>To visualize all of the marker features simultaneously, we can create a heatmap using the <code>markerHeatmap()</code> function, optionally supplying some marker genes to label on the heatmap via the <code>labelMarkers</code> parameter.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="identifying-marker-genes.html#cb98-1"></a>markerGenes  &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb98-2"><a href="identifying-marker-genes.html#cb98-2"></a>    <span class="st">&quot;CD34&quot;</span>, <span class="co">#Early Progenitor</span></span>
+<span id="cb98-3"><a href="identifying-marker-genes.html#cb98-3"></a>    <span class="st">&quot;GATA1&quot;</span>, <span class="co">#Erythroid</span></span>
+<span id="cb98-4"><a href="identifying-marker-genes.html#cb98-4"></a>    <span class="st">&quot;PAX5&quot;</span>, <span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;EBF1&quot;</span>, <span class="st">&quot;MME&quot;</span>, <span class="co">#B-Cell Trajectory</span></span>
+<span id="cb98-5"><a href="identifying-marker-genes.html#cb98-5"></a>    <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;CEBPB&quot;</span>, <span class="st">&quot;MPO&quot;</span>, <span class="co">#Monocytes</span></span>
+<span id="cb98-6"><a href="identifying-marker-genes.html#cb98-6"></a>    <span class="st">&quot;IRF8&quot;</span>, </span>
+<span id="cb98-7"><a href="identifying-marker-genes.html#cb98-7"></a>    <span class="st">&quot;CD3D&quot;</span>, <span class="st">&quot;CD8A&quot;</span>, <span class="st">&quot;TBX21&quot;</span>, <span class="st">&quot;IL7R&quot;</span> <span class="co">#TCells</span></span>
+<span id="cb98-8"><a href="identifying-marker-genes.html#cb98-8"></a>  )</span>
+<span id="cb98-9"><a href="identifying-marker-genes.html#cb98-9"></a></span>
+<span id="cb98-10"><a href="identifying-marker-genes.html#cb98-10"></a>heatmapGS &lt;-<span class="st"> </span><span class="kw">markerHeatmap</span>(</span>
+<span id="cb98-11"><a href="identifying-marker-genes.html#cb98-11"></a>  <span class="dt">seMarker =</span> markersGS, </span>
+<span id="cb98-12"><a href="identifying-marker-genes.html#cb98-12"></a>  <span class="dt">cutOff =</span> <span class="st">&quot;FDR &lt;= 0.01 &amp; Log2FC &gt;= 1.25&quot;</span>, </span>
+<span id="cb98-13"><a href="identifying-marker-genes.html#cb98-13"></a>  <span class="dt">labelMarkers =</span> markerGenes,</span>
+<span id="cb98-14"><a href="identifying-marker-genes.html#cb98-14"></a>  <span class="dt">transpose =</span> <span class="ot">TRUE</span></span>
+<span id="cb98-15"><a href="identifying-marker-genes.html#cb98-15"></a>)</span></code></pre></div>
+<blockquote>
+<p>## Printing Top Marker Genes:<br />
+## C1:<br />
+## PADI4, PADI6, CDA, LINC01226, TMEM61, RPE65, PIN1P1, GNAT2, HSD3BP4, SRGAP2D, SNX27, THEM5, S100A8, FCAMR, UCN3, MIR604, MIR938, MIR4679-2, OR56B4, OR52B2<br />
+## C2:<br />
+## HES4, FHAD1, PLA2G2C, CELA3A, RHD, FGR, MYCL, BTBD19, TCTEX1D4, SLC5A9, L1TD1, PALMD, FRRS1, GPR88, MYBPHL, CASQ2, NHLH2, SLC22A15, CTSS, S100A11<br />
+## C3:<br />
+## PLEKHM2, MIR4422, CLCA3P, LOC729970, ALG14, TMEM56, SLC16A4, FCRL3, AIM2, SLAMF6, C1orf220, MIR4424, RALGPS2, RHEX, FCMR, BPNT1, KMO, LINC00700, ARID5B, MIR548AV<br />
+## C4:<br />
+## LINC01342, LINC01346, SERINC2, RIMS3, SLFNL1-AS1, EDN2, ROR1, C1orf141, CACNA1S, KLHDC8A, SLC16A9, MIR346, GLYATL2, FAM111B, OR5AN1, RAB30-AS1, BTG4, TEAD4, CD9, PIANP<br />
+## C5:<br />
+## LRRC38, FAM131C, PLA2G2D, LOC653160, TSPAN1, TTC39A, GBP1P1, LOC100129046, HAO2, RORC, S100A5, S100A4, ILDR2, FMO1, ANGPTL1, LAD1, TNNI1, VASH2, GJC2, KCNK1<br />
+## C6:<br />
+## TTLL10, ATP13A2, PAX7, CSMD2, MIR3659, TRABD2B, ERICH3, ABCA4, NTNG1, LOR, FAM189B, UCK2, PHLDA3, LEMD1, SERTAD4-AS1, ESRRG, TRIM67, LOC149373, C1orf131, DEPP1<br />
+## C7:<br />
+## TNFRSF4, RUNX3, LEXM, IL12RB2, VCAM1, CHIA, BCL2L15, CD160, PDZK1, SH2D2A, NTRK1, PYHIN1, SLAMF7, FCGR3A, CD247, LOC100505918, FASLG, GAS5-AS1, ATP6V1G3, GREM2<br />
+## C8:<br />
+## RCAN3, HPCAL4, ANKRD13C, HHLA3, ZRANB2, PLPPR5, PRMT6, AMIGO1, CHI3L2, CD2, PTGFRN, ACP6, NIT1, NUF2, MIR557, IL19, MIR1265, ANKRD26, ZEB1, ZEB1-AS1<br />
+## C9:<br />
+## ESPN, MIR4252, RCAN3AS, HOOK1, ZNF37BP, ZNF239, SLC10A1, TMEM202, RRN3P1, TP53TG3D, MT1F, ZNF286B, FOXO3B, TRIM16L, PEX12, LOC729966, PDCD2L, ZNF283, ZNF610, TLX2<br />
+## C10:<br />
+## MIR4689, HES2, NPPA-AS1, MFN2, FBLIM1, KLHDC7A, RPS14P3, FAM43B, MIR378F, GRHL3, TRIM63, GJB3, GJA4, EPHA10, RHBDL2, PPIE, RIMKLA, FAM183A, LINC00853, PDZK1IP1<br />
+## C11:<br />
+## NPPA, SFTA1P, WT1-AS, MIR4488, LRRC10B, CACNA1C-AS4, LOC728739, CCNA1, LPO, MPO, TTR, PRTN3, ELANE, OR10H2, NCAN, OXER1, INSM1, BPIFA1, EMILIN3, COL9A3<br />
+## C12:<br />
+## LINC02593, VWA1, CHD5, TMEM51-AS1, MFAP2, PADI3, HSPG2, C1QB, MIR4253, KIAA1522, C1orf94, LINC01343, KNCN, DMRTB1, CDCP2, ACOT11, ASB17, CYR61, SLC6A17, LOC643441<br />
+## Identified 2662 markers!<br />
+## Adding Annotations..<br />
+## Preparing Main Heatmap..</p>
+</blockquote>
+<p>To plot this heatmap, we can use the <code>ComplexHeatmap::draw()</code> function because the <code>heatmapGS</code> object is actually a list of heatmaps:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="identifying-marker-genes.html#cb99-1"></a>ComplexHeatmap<span class="op">::</span><span class="kw">draw</span>(heatmapGS, <span class="dt">heatmap_legend_side =</span> <span class="st">&quot;bot&quot;</span>, <span class="dt">annotation_legend_side =</span> <span class="st">&quot;bot&quot;</span>)</span></code></pre></div>
+<p><img src="images/HemeWalkthrough/PNG/GeneScores-Marker-Heatmap_1.png" width="800" height="600" /></p>
+<p>To save an editable vectorized version of this plot, we use <code>plotPDF()</code>.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="identifying-marker-genes.html#cb100-1"></a><span class="kw">plotPDF</span>(heatmapGS, <span class="dt">name =</span> <span class="st">&quot;GeneScores-Marker-Heatmap&quot;</span>, <span class="dt">width =</span> <span class="dv">8</span>, <span class="dt">height =</span> <span class="dv">6</span>, <span class="dt">ArchRProj =</span> projHeme2, <span class="dt">addDOC =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<blockquote>
+<p>## [1] 0</p>
+</blockquote>
+<p><a href="images/HemeWalkthrough/PDF/GeneScores-Marker-Heatmap.pdf">Download PDF : GeneScores-Marker-Heatmap.pdf</a></p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="identification-of-marker-features.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualizing-marker-genes-on-an-embedding.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": null
+},
+"fontsettings": null,
+"edit": null,
+"history": {
+"link": "https://github.com/GreenleafLab/ArchR_Website/commits/dev/07_MarkerGenes.Rmd",
+"text": "Chapter edit history"
+},
+"view": {
+"link": "https://github.com/GreenleafLab/ArchR_Website/view/dev/07_MarkerGenes.Rmd",
+"text": "View source on GitHub"
+},
+"download": ["ArchR.pdf"],
+"toc": {
+"collapse": "none"
+},
+"search": true,
+"info": false
+});
+});
+</script>
+
+</body>
+
+</html>
