@@ -218,12 +218,6 @@ p<-getGroupSE(
   useMatrix = "PeakMatrix",
   groupBy = "ECproj$Subtype"
 )
-PM<-getMatrixFromProject(
-  ArchRProj = ECproj,
-  useMatrix = "PeakMatrix"
-)
-
-
 peakinfo<-rowData(p)
 peak<-assays(p)$PeakMatrix
 
@@ -241,22 +235,50 @@ hits<-findOverlaps(allpeak,ECpeak)@ from
 ECpromoterid<-allpeak[hits,]$names
 matrix<-peak[ECpromoterid,]
 
-pdf("EC-promoter-proximal-peak-change-with-EC2.pdf")
-plot(density(matrix[,2]), col="blue", lty=1, 
-     xlab = "Peak openness", main = "EC2 and EC4 promoter-proximal peak openness distribution  ")
-lines(density(matrix[,4]), col="red", lty=1)
-
-FC<-matrix[,4]/matrix[,2]
-plot(density(FC), col="green", lty=1, 
-     xlab = "Peak openness Fold Change (EC4/EC2)", main = "Peak openness")
+#pdf("EC-promoter-proximal-peak-change-with-EC2.pdf")
+#plot(density(matrix[,2]), col="blue", lty=1, 
+#     xlab = "Peak openness", main = "EC2 and EC4 promoter-proximal peak openness distribution  ")
+#lines(density(matrix[,4]), col="red", lty=1)
+#
+#FC<-matrix[,4]/matrix[,2]
+#plot(density(FC), col="green", lty=1, 
+#     xlab = "Peak openness Fold Change (EC4/EC2)", main = "Peak openness")
 
 EC2<-as.numeric(matrix[,2])
 EC4<-as.numeric(matrix[,4])
-EC2<-ecdf(EC2)
-EC4<-ecdf(EC4)
+#EC2<-ecdf(EC2)
+#EC4<-ecdf(EC4)
+#
+#plot(EC2,col="blue")
+#lines(EC4, col = "red")
+#ks.test(EC2,FB1)
+#
+#dev.off()
 
-plot(EC2,col="blue")
-lines(EC4, col = "red")
-ks.test(EC2,FB1)
 
+########MAplot###########
+pdf("promoter-proximal-peak-change.pdf")
+par(mfrow = c(2, 2), pty = "s", mar=c(2,1,2,1) , pin=c(1.5,1.5))
+
+library(affy)
+
+ma.plot(EC4, EC2, show.statistics=T, 
+        span=0.2,plot.method="smoothScatter",
+        lwd=2, pch=20, cex=0.8,
+        main="EC2 with EC4")
+
+ma.plot(FB3, FB2, show.statistics=T, 
+        span=0.2,plot.method="smoothScatter",
+        lwd=2, pch=20, cex=0.8,
+        main="FB3 with FB2")
+
+ma.plot(MP3, MP4, show.statistics=T, 
+        span=1,plot.method="smoothScatter",
+        lwd=2, pch=20, cex=0.8,
+        main="MP3 with MP4")
+
+ma.plot(SMC1, SMC2, show.statistics=T, 
+        span=0.2,plot.method="smoothScatter",
+        lwd=2, pch=20, cex=0.8,
+        main="SMC1 with SMC2")
 dev.off()
