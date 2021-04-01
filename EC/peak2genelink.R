@@ -61,20 +61,21 @@ p2g <- getPeak2GeneLinks(
 
 
 markerGenes  <- c("Adamts1","Xdh","Foxj2","Zeb1","Meox2","Cd36","Tcf4","Col4a2")
-
+markerGenes<-c("Plcg1","Acvrl1","Flt1","Itgb3","Itgb1bp1")
+Hsp<-c("Hspa8","Hsp90aa1","Hspa1b","Hspa1a")
 p <- plotBrowserTrack(
     ArchRProj = ECproj, 
     groupBy = "Subtype", 
-    geneSymbol ="Col4a2", 
+    geneSymbol =Hsp, 
     upstream = 10000,
-    downstream = 150000,
+    downstream = 10000,
     loops = getPeak2GeneLinks(ECproj)
 )
 grid::grid.newpage()
 grid::grid.draw(p$Col4a2)
 
 plotPDF(plotList = p, 
-    name = "Anti-angio-Genes-with-Peak2GeneLinks-1.pdf", 
+    name = "Hsp-Genes-with-Peak2GeneLinks.pdf", 
     ArchRProj = ECproj, 
     addDOC = FALSE, width = 5, height = 5)
 ####Col4a2#########
@@ -106,19 +107,6 @@ TFid
  [1]  98 101 104 107 108 113 117 119 126 127 132 135 789 790 871
 
 findOverlaps(position[98],peak)
-
-Fosb/Fos/Fosl1/Bach1/Nfe2/Jund
-Nfe2l2/Fos
-
-Fosb/Fos/Fosl1/Bach1/Bach2/Jun/Junb/Jund
-Nfe2l2/Fos/Nfe2/Jund/Batf3/Batf
-
-Fosb/Nfe2l2/Fos/Fosl1/Bach1/Bach2/Jun/Junb/Nfe2/Jund
-
-
-
-
-
 
 ################EC4¡¢FB3¡¢MP3¡¢SMC1 distance tree ###############
 
@@ -261,6 +249,34 @@ pdf("promoter-proximal-peak-change.pdf")
 par(mfrow = c(2, 2), pty = "s", mar=c(2,1,2,1) , pin=c(1.5,1.5))
 
 library(affy)
+matrix<-as.data.frame(matrix)
+matrix$baseMean<-(log2(matrix$EC4)+log2(matrix$EC2))/2
+matrix$log2FoldChange<-log2(matrix$EC4/matrix$EC2)
+matrix<-na.omit(matrix)
+matrix$change = ifelse(matrix$baseMean >= 0.5 & abs(matrix$log2FoldChange) >= 1, 
+                     ifelse(matrix$log2FoldChange> 1 ,'Up','Down'),
+                     'normal')
+
+#matrix$sign   = ifelse( abs(matrix$log2FoldChange) >= 1 & log2(matrix$baseMean)>=0.5, "DEP", "normal")
+
+ggplot(matrix, aes(x=baseMean,y=log2FoldChange,fill = change)) +
+ geom_point(aes(color=change),size=1)  +ylim(c(-2,2))+
+ theme_bw()+
+  theme(plot.title = element_text(hjust = 0.5), 
+        legend.position="right", 
+        legend.title = element_blank()) +
+   scale_color_manual(values=c("normal"="black", "Down"="blue","Up"="red"))
+
+
+
+
+
+
+
+
+
+
+
 
 ma.plot(EC4, EC2, show.statistics=T, 
         span=0.2,plot.method="smoothScatter",
