@@ -25,6 +25,8 @@ ArrowFiles <- createArrowFiles(
   force=TRUE,
   addGeneScoreMat = TRUE
 )
+
+
 ####for bam file ###
 ArrowFiles <- createArrowFiles(
    inputFiles = "../subbam/fibroblast.all.bam.reformat.bam",

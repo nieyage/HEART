@@ -195,20 +195,20 @@ enrichMotifs <- peakAnnoEnrichment(
     peakAnnotation = "Motif",
     cutOff = "FDR <= 1 & Log2FC >= 0.5"
   )
-  heatmapEM <- plotEnrichHeatmap(enrichMotifs, n = 50, transpose = TRUE)
+  heatmapEM <- plotEnrichHeatmap(enrichMotifs, n = 50, transpose = F,returnMatrix = TRUE)
   ComplexHeatmap::draw(heatmapEM, heatmap_legend_side = "bot", annotation_legend_side = "bot")
   plotPDF(heatmapEM, name = "FB-sub-Motifs", width = 8, height = 6, ArchRProj = nproj, addDOC = FALSE)
   
 
 ####去掉同一个基因家族的TF，仅保留一个，添加尽可能多的基因家族进来
 
-  idxSample <- BiocGenerics::which(enrichMotifs@NAMES %in% c("Klf4_143","Klf1_214","Klf3_804","Klf2_819","Klf8_194","Klf12_236",
-           "Sp3_802","Smad5_883","Sp2_150","Sp5_238","Sp6_191","Sp4_167","Klf7_171","Klf5_145","E2f4_257","Klf14_237","Klf11_798","Klf13_817","Bach2_119",
-		   "Tcf3_31","Tcf12_59","Ascl2_23","Klf15_806","Klf16_874","Sp7_222","Sp8_207","Sp9_231","Zfp219_816","Gata5_385","Gata4_386","Gata1_387","Mesp2_57",
+  idxSample <- BiocGenerics::which(enrichMotifs@NAMES %in% c(
+           "Sp3_802","Smad5_883","Sp2_150","Sp5_238","Sp6_191","Sp4_167","Bach2_119",
+		   "Tcf3_31","Tcf12_59","Ascl2_23","Sp7_222","Sp8_207","Sp9_231","Zfp219_816","Gata5_385","Gata4_386","Gata1_387","Mesp2_57",
 		   "Gata2_383","Sox9_725","Egr2_188","Egr3_183","Zfp161_209","Zic5_195","Tcfap2c_3","Gata3_384",
 		   "Zfp281_193","Zfp740_204","Plagl1_152","Tcfap2a_1","Zic2_225","LINE3878_878",
 		   "E2f6_264","Zic1_181","Fosb_98","Nfe2l2_101","Jund_135","Batf_790","Fosl1_107",
-		   "Nfe2l1_117","Nfe2l3_871","Jun_126","Cebpb_130","Cebpg_129","Zfp202_169","Tbpl2_773","Nfatc1_703","Nfatc3_702","Nfata4_857"))
+		   "Nfe2l1_117","Nfe2l3_871","Jun_126","Zfp202_169","Tbpl2_773","Nfatc1_703","Nfatc3_702","Nfata4_857"))
 
 
 
@@ -221,7 +221,16 @@ cellsSample <- enrichMotifs@NAMES[-idxSample]
 enrichMotifs1=enrichMotifs[cellsSample, ]
 
 
-heatmapEM <- plotEnrichHeatmap(enrichMotifs1, n = 50, transpose = TRUE)
+heatmapEM <- plotEnrichHeatmap(enrichMotifs1, n = 50, transpose = F,returnMatrix = TRUE)
+
+
+pheatmap(heatmapEM,cluster_cols = F,cluster_rows = F,
+         color = colorRampPalette(c("#E6E7E8", "#3A97FF", "#8816A7","black"))(100),
+         #cellwidth = 10, cellheight = 10,
+         show_rownames=T,show_colnames=T)
+
+
+
   ComplexHeatmap::draw(heatmapEM, heatmap_legend_side = "bot", annotation_legend_side = "bot")
   plotPDF(heatmapEM, name = "FB-Motifs-rmrep2",width = 8, height = 4,ArchRProj = nproj, addDOC = FALSE)
 
