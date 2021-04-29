@@ -163,15 +163,15 @@ library(clusterProfiler)
 library(org.Mm.eg.db)
 
 pdf("/md01/nieyg/scATAC-ArchR/Save-rmNAR-Endothelial/Plots/EC-GO.pdf")
-ego_geneID <- bitr(EC5, fromType = "SYMBOL", toType = c("ENSEMBL", "ENTREZID"), OrgDb = org.Mm.eg.db,drop = T)
+ego_geneID <- bitr(EC4, fromType = "SYMBOL", toType = c("ENSEMBL", "ENTREZID"), OrgDb = org.Mm.eg.db,drop = T)
 ###GO analysis####
 ego <- enrichGO(ego_geneID$ENTREZID,
                 keyType = 'ENTREZID',
                 OrgDb = org.Mm.eg.db,
                 ont = "BP", ###BP,MF,CC
                 pAdjustMethod = "BH",
-                pvalueCutoff = 0.05,
-                qvalueCutoff = 0.05,
+                pvalueCutoff = 0.5,
+                qvalueCutoff = 0.5,
                 readable = TRUE)
 
 ego
