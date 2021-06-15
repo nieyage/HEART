@@ -154,14 +154,14 @@ markerGenes  <- c(
 "Itgam","Lgals3","Lyzl1","Mrc1",###Macrophages
 "Cd3e","Cd3d","Cd8a","Cd8b1","Nkg7","Igfbp4","Lat",###Tcell
 "Cd79a","Cd79b","Mzb1","Ly6d",####Bcell
-"Cd"74","Cd83","Cd86","Flt3","Cd209a",####DC
+"Cd74","Cd83","Cd86","Flt3","Cd209a",####DC
 "Cdh5","Pecam1","Ednrb","Aqp7","Emcn","Madcam1","Epas1","Flt1","Tie1","Fabp4","Esam","Kdr","Tek",###endothelial
 "Col3a1","Mmp2","Col1a2","Fstl1","Gsn","Thy1","Pdgfra",##fibroblast
 "Abcc9","Rgs5","Ano1","Acta2",####smoothmuscle
 "Prr15","Slc9a3r1","Lrrn4","Slc39a8","Krt8","Anxa8"
 #####epicardial
 )
-"
+
 heatmapGS <- markerHeatmap(
   seMarker = markersGS, 
   cutOff = "FDR <= 0.01 & Log2FC >= 1.25", 

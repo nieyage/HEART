@@ -257,7 +257,4 @@ ks.test(FB2,FB3)
 ks.test(FB2,FB4)
 
 
-
-
-
 TM<-getMatrixFromProject(ArchRProj = nproj,useMatrix = "TileMatrix")
