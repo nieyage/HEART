@@ -55,7 +55,9 @@ p3 <- plotEmbedding(ArchRProj = nproj, colorBy = "cellColData", name = "Sample",
 ggAlignPlots(p1,p4,p3, type = "h")
 plotPDF(p1,p4, p3,name = "Epi-Plot-UMAP-2.pdf", ArchRProj = nproj, addDOC = FALSE, width = 5, height = 5)
 
-Epimarker<-c("Prr15","Slc9a3r1","Lrrn4","Slc39a8","Krt8","Anxa8","Msln")
+Epimarker<-c("Prr15","Slc9a3r1","Lrrn4","Slc39a8","Krt8","Anxa8","Msln",
+  "Kcnj8","Adgre1","Itgal",####Pericyte
+  "Plp1")
 p <- plotEmbedding(
     ArchRProj = nproj, 
     colorBy = "GeneScoreMatrix", 
@@ -64,7 +66,7 @@ p <- plotEmbedding(
     imputeWeights = getImputeWeights(nproj)
 )
 plotPDF(plotList = p, 
-    name = "Epimarker-Genes-umap.pdf", 
+    name = "Epimarker-Genes-umap2.pdf", 
     ArchRProj = nproj, 
     addDOC = FALSE, width = 5, height = 5)
 
@@ -85,10 +87,6 @@ remapClust <- c(
     "C6" = "sub3"
 )
 nproj$Clusters3 <- mapLabels(nproj$Clusters2, newLabels = remapClust, oldLabels = names(remapClust))
-
-
-
-
 
 marker<-c("Kcnj8","Adgre1","Itgal",####Pericyte
 	"Plp1")###Glial
@@ -196,4 +194,72 @@ ggplot(df, aes(x = UMAP1, y = UMAP2,color = celltype)) +
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+ggtitle("celltype")
 dev.off();
 
-saveArchRProject(ArchRProj = proj5, overwrite = FALSE,outputDirectory = "Save-allcelltype-rescue", load = T)
+saveArchRProject(ArchRProj = proj5, overwrite = FALSE,outputDirectory = "Save-allcelltype-rescue2", load = T)
+
+####3 UMAP plot
+pdf("allcelltype-3UMAP.pdf")
+> levels(UMAP$celltype)
+ [1] "B_cell"         "Cardiomyocytes" "Endothelial"    "Epicardial"    
+ [5] "Fibroblast"     "Glial"          "granulocyte"    "Macrophages"   
+ [9] "Pericyte"       "Smoothmuscle"   "T_cell" 
+ colorvalue = c("#48453d","#1f441e","#0072B5","#fbaba9",  "#E18727","#b92419","#66E1E6","#20854E",  "#8edcaf","#7876B1","#0F3057")
+
+#20854E    绿 MP
+#0072B5    蓝 EC
+#E18727    黄 FB
+#7876B1    紫 SMC
+#FCF5B3 米白  EPI 改成  #fbaba9
+#1f441e 暗绿  Per 改成  #8edcaf
+#66E1E6 浅蓝  GUA
+#0F3057 藏蓝  T 
+#ffcbcb 粉    B   改成  #48453d
+#21DB00 嫩绿  GLI 改成  #b92419
+########UMAP1 and UMAP2
+df<-read.table("allcelltypeUMAP.txt")
+
+ggplot(df, aes(x = UMAP1, y = UMAP2,color = celltype)) +
+  geom_point(size=0.8,alpha=0.8) + 
+  theme_bw() + 
+  scale_color_manual(values = colorvalue) + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+ggtitle("UMAP1 and UMAP2")
+
+ggplot(df, aes(x = UMAP1, y = UMAP3,color = celltype)) +
+  geom_point(size=0.8,alpha=0.8) + 
+  theme_bw() + 
+  scale_color_manual(values = colorvalue) + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+ggtitle("UMAP1 and UMAP3")
+
+ggplot(df, aes(x = UMAP2, y = UMAP3,color = celltype)) +
+  geom_point(size=0.8,alpha=0.8) + 
+  theme_bw() + 
+  scale_color_manual(values = colorvalue) + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))+ggtitle("UMAP2 and UMAP3")
+
+######3D UMAP######
+ colorvalue = c("#48453d","#1f441e","#0072B5","#fbaba9",  "#E18727","#b92419","#66E1E6","#20854E",  "#8edcaf","#7876B1","#0F3057")
+library(scatterplot3d)
+pdf("3D-UMAP.pdf")
+ 
+colors <- colorvalue[as.factor(UMAP$celltype)]
+
+ s3d <- scatterplot3d(UMAP[,c("UMAP1","UMAP2","UMAP3")],
+ color = colors,angle = 60, cex.symbols = 0.3,pch=16)
+
+legend("bottom", legend = c("B","CM","EC","EPI","FB","Glial","Gran","MP","Per","SMC","T"),
+col =colorvalue, pch = 15,cex=1,
+inset = -0.2,xpd = TRUE, horiz = TRUE)
+
+
+
+ s3d <- scatterplot3d(UMAP[,c("UMAP1","UMAP2","UMAP3")],
+ color = colors,angle = 90, cex.symbols = 0.3,pch=16)
+
+legend("bottom", legend = c("B","CM","EC","EPI","FB","Glial","Gran","MP","Per","SMC","T"),
+col =colorvalue, pch = 15,cex=1,
+inset = -0.2,xpd = TRUE, horiz = TRUE)
+
+MV411_diff_gene <-subset(MV411res, padj < 0.01 & abs(log2FoldChange)> 1) 
+MV411_diff<-rownames(diff_gene)

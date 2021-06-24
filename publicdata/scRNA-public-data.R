@@ -435,7 +435,7 @@ dev.off()
 
 ###########分不同sample 不同cell type进行细胞的PF 的heatmap绘制
 
-PFgene<-c("Trap1","Cct2","Dnajb5","Dnajb11","Ppia","Ppil1","Stub1","Cdc37","Mkks","Grpel1","Fkbp8","Calr","P3h1","Ptges3l","Dnajb1","Hsp90ab1","Hsp90aa1","Hspd1","Pdcl3","Nudc","Dnaja1","Pfdn6","Mesd","Hspa1b","Hspe1","Hspa8","Hspa1a")
+PFgene<-c("Trap1","Cct2","Dnajb5","Dnajb11","Ppia","Ppil1","Stub1","Cdc37","Mkks","Grpel1","Fkbp8","Calr","P3h1","Ptges3l","Dnajb1","Hsp90ab1","Hsp90aa1","Hspd1","Pdcl3","Nudc","Dnaja1","Pfdn6","Hspa1b","Hspe1","Hspa8","Hspa1a")
 hisall <- ScaleData(hisall, features =rownames(hisall))
 
 pdf("PFgene_groupby_celltype_heatmap.pdf")
@@ -589,3 +589,23 @@ pdf("PFgene_groupby_sample_mergecelltype_heatmap.pdf")
 DoHeatmap(hisall, features = PFgene,group.by = "subtypename",combine = F) 
 dev.off()
 
+#####分开cell type######
+saveRDS(hisall,"hisall.rds")
+CM<-subset(hisall, idents = c( "CM"))
+EC<-subset(hisall, idents = c( "EC"))
+SMC<-subset(hisall, idents = c( "SMC"))
+IC<-subset(hisall, idents = c( "IC"))
+Pericyte<-subset(hisall, idents = c( "Pericyte"))
+EPI<-subset(hisall, idents = c( "EPI"))
+FB<-subset(hisall, idents = c( "FB"))
+
+cols=brewer.pal(8,"Set2")[1:4]
+pdf("PFgene_splitcelltype_heatmap.pdf")
+DoHeatmap(CM,       features = PFgene,group.by = "sample",group.colors =cols,disp.min=-2,disp.max=2)+scale_fill_gradientn(colors = c("#4858A7","#788FC8","#D6DAE1","#F49B7C","#B51F29"))
+DoHeatmap(EC,       features = PFgene,group.by = "sample",group.colors =cols,disp.min=-2,disp.max=2)+scale_fill_gradientn(colors = c("#4858A7","#788FC8","#D6DAE1","#F49B7C","#B51F29"))
+DoHeatmap(IC,       features = PFgene,group.by = "sample",group.colors =cols,disp.min=-2,disp.max=2)+scale_fill_gradientn(colors = c("#4858A7","#788FC8","#D6DAE1","#F49B7C","#B51F29"))
+DoHeatmap(FB,       features = PFgene,group.by = "sample",group.colors =cols,disp.min=-2,disp.max=2)+scale_fill_gradientn(colors = c("#4858A7","#788FC8","#D6DAE1","#F49B7C","#B51F29"))
+DoHeatmap(SMC,      features = PFgene,group.by = "sample",group.colors =cols,disp.min=-2,disp.max=2)+scale_fill_gradientn(colors = c("#4858A7","#788FC8","#D6DAE1","#F49B7C","#B51F29"))
+DoHeatmap(EPI,      features = PFgene,group.by = "sample",group.colors =cols,disp.min=-2,disp.max=2)+scale_fill_gradientn(colors = c("#4858A7","#788FC8","#D6DAE1","#F49B7C","#B51F29"))
+DoHeatmap(Pericyte, features = PFgene,group.by = "sample",group.colors =cols,disp.min=-2,disp.max=2)+scale_fill_gradientn(colors = c("#4858A7","#788FC8","#D6DAE1","#F49B7C","#B51F29"))
+dev.off()

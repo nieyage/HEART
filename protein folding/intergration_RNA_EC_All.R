@@ -285,7 +285,7 @@ MP3barcode<-rownames(MP3proj@cellColData[which(MP3proj@cellColData$subtype=="MP3
 SMC1barcode<-rownames(SMC1proj@cellColData[which(SMC1proj@cellColData$subtype=="SMC1"),])
 
 cellsSample <- c(FB3barcode,EC4barcode,MP3barcode,SMC1barcode)
-nproj=proj5[cellsSample, ]
+nproj=all[cellsSample, ]
 nproj<-addImputeWeights(nproj,reducedDims="IterativeLSI-dim8")
 subtype<-c(rep("other",9278))
 m<-rownames(nproj@cellColData)
@@ -387,15 +387,15 @@ SMC3barcode<-rownames(SMCproj@cellColData[which(SMCproj@cellColData$subtype=="SM
 
 ########No CMs####
 cellsSample <- c(FB1barcode,FB2barcode,FB3barcode,FB4barcode,
-	EC1barcode,EC2barcode,EC3barcode,EC4barcode,EC5barcode,
+	EC1barcode,EC2barcode,EC3barcode,EC4barcode,
 	MP1barcode,MP2barcode,MP3barcode,MP4barcode,
 	SMC1barcode,SMC2barcode,SMC3barcode)
-nproj=proj5[cellsSample, ]
+nproj=all[cellsSample, ]
 nproj<-addImputeWeights(nproj,reducedDims="IterativeLSI-dim8")
 
-subtype<-c(rep("other",56362))
+subtype<-c(rep("other",53839))
 m<-rownames(nproj@cellColData)
-for (i in 1:56362){
+for (i in 1:53839){
 if(m[i] %in% FB3barcode)
     subtype[i]="FB3"
 if(m[i] %in% MP3barcode)
@@ -508,8 +508,9 @@ dev.off();
 plotPDF(plotList = p, name = "overlap_gene_violin_allsubtype.pdf", ArchRProj = nproj, 
     addDOC = FALSE, width = 5, height = 5)
 
-
-common_TF <- c("Jun","Fosl1","Batf","Fosl2","Atf3","Bach1","Bach2","Junb")
+SP1 KLF3 5 klf9 14
+common_TF <- c("Sp1","Klf1","Klf2","Klf3","Klf4","Klf5",
+    "Klf6","Klf7","Klf8","Klf9","Klf10","Klf11","Klf12","Klf13","Klf14")
 p<- plotGroups(
     ArchRProj = nproj, 
     groupBy = "subtype", 
@@ -518,16 +519,19 @@ p<- plotGroups(
     plotAs = "violin",
     alpha = 0.4,
     baseSize = 4,
-    pal =c("#A92B14","#EC431A","#FF7701","#F1C149","#F4E48F",
-           "#41668F","#3383B1","#65A4D1","#B4D1E1",
-           "#3D5B4A","#458455","#6A9D62","#C0D2A9",
-           "#AAA1CC","#9C63A8","#C39FCB"),
+    pal =c("#9ea4ac","#9ea4ac","#9ea4ac","#29a887",
+           "#9ea4ac","#9ea4ac","#fba9b0","#9ea4ac",
+           "#9ea4ac","#9ea4ac","#ffc93c","#9ea4ac",
+           "#54c5dc","#9ea4ac","#9ea4ac"),
     addBoxPlot = TRUE,
     size=0.2
    )
 p2 <- lapply(p, function(x){x })
-pdf("common_TF_violin_9fig_allsubtype.pdf")
-do.call(cowplot::plot_grid, c(list(ncol = 3,nrow=3),p2))
+pdf("TF_violin_allsubtype.pdf")
+do.call(cowplot::plot_grid, c(list(ncol = 2,nrow=3),p2[1:6]))
+do.call(cowplot::plot_grid, c(list(ncol = 2,nrow=3),p2[7:12]))
+do.call(cowplot::plot_grid, c(list(ncol = 2,nrow=3),p2[13:15]))
+
 dev.off();
 plotPDF(plotList = p, name = "common_TF_violin_allsubtype.pdf", ArchRProj = nproj, 
     addDOC = FALSE, width = 5, height = 5)
@@ -567,4 +571,39 @@ do.call(cowplot::plot_grid, c(list(ncol = 3,nrow=3),p2[19:26]))
 dev.off();
 plotPDF(plotList = p, name = "overlap_gene_violin_allsubtype.pdf", ArchRProj = nproj, 
     addDOC = FALSE, width = 5, height = 5)
+
+
+#########plot violin plot #######
+gene<-c("Cdk1","Mapk8","Mki67","Rnf4","Hspa1a","Nos2","Hsf1","Hsf2","Hsf3","Hsf4")
+p<- plotGroups(
+    ArchRProj = nproj, 
+    groupBy = "subtype", 
+    colorBy = "GeneIntegrationMatrix", 
+    name = gene,
+    plotAs = "violin",
+    alpha = 0.4,
+    baseSize = 4,
+    pal =c("#A92B14","#EC431A","#FF7701","#F1C149","#F4E48F",
+           "#41668F","#3383B1","#65A4D1","#B4D1E1",
+           "#3D5B4A","#458455","#6A9D62","#C0D2A9",
+           "#AAA1CC","#9C63A8","#C39FCB"),
+    addBoxPlot = TRUE,
+    size=0.2
+   )
+
+"#A92B14","#EC431A","#FF7701","#F1C149","#F4E48F" ######EC
+"#41668F","#3383B1","#65A4D1","#B4D1E1" ######FB
+"#3D5B4A","#458455","#6A9D62","#C0D2A9" #####MP
+"#AAA1CC","#9C63A8","#C39FCB" ####SMC
+
+#Rearrange for grid plotting
+p2 <- lapply(p, function(x){x })
+pdf("Exp-sp1_gene_violin_9fig_allsubtype.pdf")
+do.call(cowplot::plot_grid, c(list(ncol = 3,nrow=3),p2))
+do.call(cowplot::plot_grid, c(list(ncol = 3,nrow=3),p2[10:18]))
+do.call(cowplot::plot_grid, c(list(ncol = 3,nrow=3),p2[19:26]))
+dev.off();
+plotPDF(plotList = p, name = "sp1test_gene_violin_allsubtype.pdf", ArchRProj = nproj, 
+    addDOC = FALSE, width = 5, height = 5)
+
 
