@@ -123,25 +123,22 @@ sce <- selectFeatures(sce,  n_features = 15000,suppress_plot = FALSE)
 ## counts() slot. Dropouts were calculated using logcounts() slot...
 
 table(rowData(sce)$scmap_features)
-
-
 sce <- indexCluster(sce,cluster_col="anno")
 heatmap(as.matrix(metadata(sce)$scmap_cluster_index))
 head(metadata(sce)$scmap_cluster_index)
+index<-metadata(sce)$scmap_cluster_index
+mydata <- index[apply(index,1,function(x) sum(x > 0) > 1),] 
+
 scmapCluster(projection = NULL, index_list = NULL, threshold = 0.7)
-mydata <- yan[apply(yan,1,function(x) sum(x > 0) > 1),] 
-
-
 scmapCluster_results <- scmapCluster(
   projection = sce, 
   index_list = list(
     mydata=mydata
-  ),threshold = 0.5
+  ),threshold = 0.7
 )
 getSankey(reference, clusters, plot_width = 400, plot_height = 600,
        colors = NULL)
 reference: reference clustering labels
-
 clusters: clustering labels under investigations
 
 
@@ -155,7 +152,7 @@ p<-plot(
 
 
 
-
+p<-edit(getSankey)
 p1<-  p(
     colData(sce)$anno, 
     scmapCluster_results$scmap_cluster_labs[,'mydata'],
@@ -186,3 +183,193 @@ pdf("test-sankey.pdf")
   #theme_minimal() +
   #theme_tropical()
   ggtitle("Taxonomy abundance in each group")
+
+#######scmap only EC to EC########
+library(SingleCellExperiment)
+library(scmap)
+library(ArchR)
+set.seed(1)
+addArchRThreads(threads = 16) 
+addArchRGenome("mm10")
+ECproj<-loadArchRProject(path = "./ArchR-Endothelial_Cell/Save-Proj2-EC5-subtype")
+
+GSM<-getMatrixFromProject(ArchRProj =ECproj, useMatrix = "GeneScoreMatrix")
+head(GSM@assays@data$GeneScoreMatrix)[,1:10]
+genename<-rowData(GSM)$name ####共24333个基因
+count<-GSM@assays@data$GeneScoreMatrix[,which(colnames(GSM) %in% rownames(ECproj))]
+count<-as.matrix(count)
+rownames(count) = genename
+anno<-ECproj$Subtype
+anno<-as.data.frame(anno)
+rownames(anno)<-rownames(ECproj@cellColData)
+count<-as.data.frame(count)
+sce <- SingleCellExperiment(assays = list(counts = as.matrix(count)), colData = anno)
+logcounts(sce) <- log2(counts(sce) + 1)
+# use gene names as feature symbols
+rowData(sce)$feature_symbol <- rownames(sce)
+isSpike(sce, "ERCC") <- grepl("^ERCC-", rownames(sce))
+# remove features with duplicated names
+sce <- sce[!duplicated(rownames(sce)), ]
+sce
+sce <- selectFeatures(sce,  n_features = 10000,suppress_plot = FALSE)
+
+## Warning in linearModel(object, n_features): Your object does not contain
+## counts() slot. Dropouts were calculated using logcounts() slot...
+
+table(rowData(sce)$scmap_features)
+
+
+sce <- indexCluster(sce,cluster_col="anno")
+
+heatmap(as.matrix(metadata(sce)$scmap_cluster_index))
+head(metadata(sce)$scmap_cluster_index)
+index<-metadata(sce)$scmap_cluster_index
+#####提取EC12345markergene ####
+cellNames <- ECproj$cellNames
+m<-ECproj$Subtype
+ECproj <- addCellColData(ArchRProj = ECproj, data = paste0(m),
+    cells=cellNames, name = "subtype",force = TRUE)
+
+markersGS <- getMarkerFeatures(
+    ArchRProj = ECproj, 
+    useMatrix = "GeneScoreMatrix", 
+    groupBy = "subtype",
+    bias = c("TSSEnrichment", "log10(nFrags)"),
+    testMethod = "wilcoxon"
+)
+markerList <- getMarkers(markersGS, cutOff = "FDR <= 0.05 & Log2FC >= 1")
+EC1<-markerList$EC1$name
+EC2<-markerList$EC2$name
+EC3<-markerList$EC3$name
+EC4<-markerList$EC4$name
+EC5<-markerList$EC5$name
+all<-c(EC1,EC2,EC3,EC4,EC5)
+
+mydata <- index[apply(index,1,function(x) sum(x > 0) > 1),] 
+mydata2<-index[which(rownames(index)%in% all),]
+p<-getGroupSE(
+  ArchRProj = ECproj,
+  useMatrix = "GeneScoreMatrix",
+  groupBy = "subtype"
+)
+
+GM<-getMatrixFromProject(
+  ArchRProj = ECproj,
+  useMatrix = "GeneScoreMatrix"
+)
+gene<-rowData(GM)$name
+count<-assay(p)
+
+count<-as.data.frame(count)
+count=as.data.frame(lapply(count,as.numeric))
+rownames(count)<-gene
+ec<-count[which(rownames(count)%in% all),]
+
+scmapCluster(projection = NULL, index_list = NULL, threshold = 0.7)
+scmapCluster_results <- scmapCluster(
+  projection = ECsce, 
+  index_list = list(
+    mydata=mydata2
+  ),threshold = 0.3
+)
+
+
+#p<-edit(getSankey)
+p1<-  p(
+    colData(ECsce)$anno, 
+    scmapCluster_results$scmap_cluster_labs[,'mydata'],
+    plot_height = 400
+  )
+
+
+
+getSankey(reference, clusters, plot_width = 400, plot_height = 600,
+       colors = NULL)
+reference: reference clustering labels
+clusters: clustering labels under investigations
+
+
+p<-plot(
+  getSankey(
+    colData(sce)$anno, 
+    scmapCluster_results$scmap_cluster_labs[,'mydata'],
+    plot_height = 400
+  )
+)
+
+
+nproj<-loadArchRProject(path = "./publish_data/scATAC/Save-cellreport-all-filter-addcelltype")
+FB<-loadArchRProject(path ="./publish_data/scATAC/Save-cellreport-fibroblast")
+EC<-loadArchRProject(path ="./publish_data/scATAC/Save-cellreport-Endothelial")
+
+GSM<-getMatrixFromProject(ArchRProj =EC, useMatrix = "GeneScoreMatrix")
+head(GSM@assays@data$GeneScoreMatrix)[,1:10]
+genename<-rowData(GSM)$name ####共24333个基因
+count<-GSM@assays@data$GeneScoreMatrix[,which(colnames(GSM) %in% rownames(EC))]
+count<-as.matrix(count)
+rownames(count) = genename
+anno<-EC$sample
+anno<-as.data.frame(anno)
+rownames(anno)<-rownames(EC@cellColData)
+count<-as.data.frame(count)
+count<-count*100
+ECsce <- SingleCellExperiment(assays = list(counts = as.matrix(count)), colData = anno)
+logcounts(ECsce) <- log2(counts(ECsce) + 1)
+# use gene names as feature symbols
+rowData(ECsce)$feature_symbol <- rownames(ECsce)
+
+From [# of cells] To 
+P8D3Sham  [1468] unassigned
+  P8D3MI  [1175] unassigned
+P1D3Sham  [1123] unassigned
+  P1D3MI  [ 921] unassigned
+  P1D3MI  [ 407]        EC3
+  P1D3MI  [ 242]        EC5
+  P1D3MI  [  17]        EC4
+  P1D3MI  [   1]        EC1
+P1D3Sham  [ 475]        EC3
+P1D3Sham  [ 245]        EC5
+P1D3Sham  [  23]        EC4
+  P8D3MI  [ 732]        EC3
+  P8D3MI  [ 271]        EC5
+  P8D3MI  [  19]        EC4
+  P8D3MI  [   2]        EC1
+P8D3Sham  [1239]        EC3
+P8D3Sham  [ 277]        EC5
+P8D3Sham  [  15]        EC4
+
+adipose
+adrenal gland
+artery
+ascending colon
+bladder
+bone marrow
+cerebellum
+cervix
+duodenum
+epityphlon
+oesophagus
+fallopian tube
+gall bladder
+heart
+ileum
+jejunum
+kidney
+liver
+lung
+muscle
+omentum
+pancreas
+peripheral blood
+pleura
+prostate
+rectum
+sigmoid colon
+spleen
+stomach
+temporal lobe
+thyroid gland
+trachea
+transverse colon
+ureter
+uterus

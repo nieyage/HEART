@@ -5,9 +5,9 @@ set.seed(1)
 addArchRThreads(threads = 16) 
 addArchRGenome("mm10")
 
-nproj<-loadArchRProject(path = "Save-cellreport-all-filter-addcelltype")
-FB<-loadArchRProject(path ="Save-cellreport-fibroblast")
-EC<-loadArchRProject(path ="Save-cellreport-Endothelial")
+nproj<-loadArchRProject(path = "./publish_data/scATAC/Save-cellreport-all-filter-addcelltype")
+FB<-loadArchRProject(path ="./publish_data/scATAC/Save-cellreport-fibroblast")
+EC<-loadArchRProject(path ="./publish_data/scATAC/Save-cellreport-Endothelial")
 
 
 marker_genes<-c("Brinp1","Pim1","Birc6","Il1rapl1","Cdh18","Grid2","Mdm4","Cebpd")######FB marker genes
