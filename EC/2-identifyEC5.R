@@ -162,3 +162,6 @@ heatmapGS <- markerHeatmap(
 
 ComplexHeatmap::draw(heatmapGS, heatmap_legend_side = "bot", annotation_legend_side = "bot")
 plotPDF(heatmapGS, name = "Endothelial-CapillaryvenousMarker-Heatmap-1", width = 8, height = 6, ArchRProj = ArchR.EC, addDOC = FALSE)
+
+
+
